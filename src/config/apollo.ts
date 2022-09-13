@@ -1,4 +1,4 @@
-import { ErrorMessage } from "@/constant/message";
+import { ErrorMessage } from "@/constants/message";
 import { useErrorMessage } from "@/context/global-states/useErrorMessage";
 import { createHttpLink, InMemoryCache, ApolloClient, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";

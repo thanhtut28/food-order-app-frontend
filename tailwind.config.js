@@ -8,9 +8,6 @@ module.exports = {
             body: ["Pally", "Comic Sans MS", "sans-serif"],
          },
 
-         animation: {
-            "error-progress": "Toastify__trackProgress linear 1 forwards",
-         },
          colors: {
             primary: {
                50: "#fff1f2",
