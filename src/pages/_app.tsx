@@ -1,15 +1,19 @@
 import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.min.css";
-import type { AppProps } from "next/app";
 import { ApolloProvider } from "@apollo/client";
-import { client } from "@/config/apollo";
-import ErrorToast from "@/components/modal/error-toast";
+import { client } from "@/lib/config/apollo";
+import Toast from "@/modules/common/components/toast";
+import { AccountProvider } from "@/lib/context/account-context";
+import { AppPropsWithLayout } from "@/types/global";
 
-function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+   const getLayout = Component.getLayout ?? (page => page);
    return (
       <ApolloProvider client={client}>
-         <Component {...pageProps} />
-         <ErrorToast />
+         <AccountProvider>
+            {getLayout(<Component {...pageProps} />)}
+            <Toast.Error />
+         </AccountProvider>
       </ApolloProvider>
    );
 }
