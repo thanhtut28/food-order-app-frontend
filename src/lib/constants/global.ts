@@ -3,3 +3,12 @@ export enum Field {
    PASSWORD = "password",
    USERNAME = "username",
 }
+
+export const toastClass = {
+   success: "bg-green-400",
+   error: "bg-red-400",
+   info: "bg-gray-600",
+   warning: "bg-orange-400",
+   default: "bg-indigo-600",
+   dark: "bg-white-600 font-gray-300",
+};

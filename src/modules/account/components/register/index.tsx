@@ -1,10 +1,11 @@
 import { Field } from "@/lib/constants/global";
-import { FormErrorMessage } from "@/lib/constants/message";
+import { FormErrorMessage, SuccessMessage } from "@/lib/constants/message";
 import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
 import { useSignUpMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import { useForm, FieldValues } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface RegisterCredentials extends FieldValues {
    email: string;
@@ -21,7 +22,7 @@ const Register = () => {
       formState: { errors },
       setError,
    } = useForm<RegisterCredentials>();
-   const [signUp, { loading: signingIn }] = useSignUpMutation();
+   const [signUp, { loading: signingUp }] = useSignUpMutation();
 
    const onSubmit = handleSubmit(async credentials => {
       const { data } = await signUp({
@@ -34,6 +35,7 @@ const Register = () => {
          },
       }).then(data => {
          refetchUser();
+         toast.success(SuccessMessage.SIGN_UP_SUCCESS);
          return data;
       });
       if (data?.signUp?.error?.field === Field.EMAIL) {
@@ -46,7 +48,7 @@ const Register = () => {
    });
 
    return (
-      <div className="max-w-sm w-full flex flex-col items-center">
+      <div className="max-w-md w-full flex flex-col items-center bg-white border border-gray-200 p-8 rounded-lg m-4">
          <h1 className="text-2xl text-primary-600 font-semibold uppercase mb-6">
             Food Delivery App
          </h1>
@@ -84,7 +86,7 @@ const Register = () => {
                   key="password"
                />
             </div>
-            <Button type="submit" className="mt-8" isLoading={signingIn}>
+            <Button type="submit" className="mt-8" isLoading={signingUp}>
                Sign Up
             </Button>
          </form>

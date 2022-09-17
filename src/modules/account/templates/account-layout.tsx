@@ -25,11 +25,9 @@ const AccountLayout: React.FC<Props> = ({ children }) => {
 
    return (
       <div className="flex-1 py-16">
-         <div className="flex-1 h-full max-w-5xl mx-auto flex flex-col">
-            <div className="grid grid-cols-1 sm:grid-cols-[240px_1fr] px-8 py-12">
-               <AccountNav />
-               <div className="bg-white rounded-md border border-gray-200 p-4">{children}</div>
-            </div>
+         <div className="flex-1 flex flex-col gap-16">
+            <AccountNav />
+            {children}
          </div>
       </div>
    );

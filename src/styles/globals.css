@@ -2,14 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
+/** @layer base {
    :root {
       --toastify-color-error: #ef4444 !important;
 
       --toastify-icon-color-error: var(toastify-color-error);
       --toastify-color-progress-error: var(toastify-color-error);
    }
-}
+} **/
 
 @layer utilities {
    html {
@@ -19,7 +19,7 @@
 
    input:focus ~ label,
    input:not(:placeholder-shown) ~ label {
-      @apply -translate-y-2 text-sm cursor-text;
+      @apply -translate-y-2 text-sm;
    }
 
    input:-webkit-autofill,

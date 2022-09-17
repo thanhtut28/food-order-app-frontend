@@ -1,10 +1,11 @@
 import { Field } from "@/lib/constants/global";
-import { FormErrorMessage } from "@/lib/constants/message";
+import { FormErrorMessage, SuccessMessage } from "@/lib/constants/message";
 import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
 import { useSignInMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import { useForm, FieldValues } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface LoginCredentials extends FieldValues {
    email: string;
@@ -27,6 +28,7 @@ const Login = () => {
          variables: { input: { email: credentials.email, password: credentials.password } },
       }).then(data => {
          refetchUser();
+         toast.success(SuccessMessage.SIGN_IN_SUCCESS);
          return data;
       });
       if (data?.signIn?.error?.field === Field.EMAIL) {

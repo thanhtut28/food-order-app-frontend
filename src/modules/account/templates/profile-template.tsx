@@ -1,34 +1,50 @@
+import { SuccessMessage } from "@/lib/constants/message";
 import { useAccount } from "@/lib/context/account-context";
+import { useLogoutMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
-import AccountInfo from "../components/account-info";
+import cn from "classnames";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
+import ProfileEmail from "../components/profile-email";
+import ProfileUsername from "../components/profile-username";
 
 const ProfileTemplate: React.FC = () => {
+   const [logout, { loading: loggingOut }] = useLogoutMutation();
    const ctx = useAccount();
 
    if (ctx.retrievingUser || !ctx.me) {
       return null;
    }
 
+   const handleLogout = () =>
+      logout().then(() => {
+         toast.success(SuccessMessage.LOG_OUT_SUCCESS);
+         ctx.refetchUser();
+      });
+
    return (
-      <div className="w-full flex flex-col justify-center items-center">
-         <div className="mb-8">
-            <h2 className="text-2xl sm:text-4xl font-semibold">Personal Information</h2>
-         </div>
-         <div className="w-full flex flex-col max-w-md">
-            <AccountInfo label="email" info={ctx.me.email} />
-            <div className="my-2" />
-            <AccountInfo label="username" info={ctx.me.username} />
-            <div className="flex justify-end my-4">
-               <Button
-                  variant="danger"
-                  onClick={() =>
-                     ctx.logout().then(() => {
-                        ctx.refetchUser();
-                     })
-                  }
-               >
-                  Logout
-               </Button>
+      <div className="mx-4">
+         <div
+            className={cn(
+               "w-full flex flex-col justify-center items-center max-w-xl mx-auto bg-white border border-gray-200 rounded-lg p-8",
+               "sm:p-12 lg:p-16"
+            )}
+         >
+            <div className="mb-8">
+               <h2 className="text-2xl sm:text-4xl font-semibold text-primary-600">
+                  Personal Information
+               </h2>
+            </div>
+            <div className="w-full flex flex-col">
+               {/* <AccountInfo label="email" info={ctx.me.email} /> */}
+               <ProfileEmail me={ctx.me} />
+               <div className="my-2" />
+               <ProfileUsername me={ctx.me} />
+               <div className="flex justify-end my-4">
+                  <Button onClick={handleLogout} isLoading={loggingOut}>
+                     Logout
+                  </Button>
+               </div>
             </div>
          </div>
       </div>

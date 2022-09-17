@@ -10,11 +10,8 @@ const AccountNav = () => {
 
    return (
       <div className="flex">
-         <div className="hidden sm:block">
-            <div className="pb-6 pt-2">
-               <h6 className="text-lg text-primary-700 font-semibold px-4">Account</h6>
-            </div>
-            <ul className="flex flex-col gap-3">
+         <div className="flex w-full justify-center items-center border py-2 bg-neutral-100">
+            <ul className="flex gap-3">
                <li className="relative">
                   <AccountNavLink href="/account" route={route}>
                      Overview
@@ -45,8 +42,8 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
    return (
       <Link href={href}>
          <a
-            className={cn("text-gray-800 text-lg block px-4 py-1", {
-               "!text-primary-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-600":
+            className={cn("text-gray-800 text-base block px-4 py-1", {
+               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-black":
                   active,
             })}
          >
@@ -55,3 +52,5 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
       </Link>
    );
 };
+
+// !text-primary-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-600

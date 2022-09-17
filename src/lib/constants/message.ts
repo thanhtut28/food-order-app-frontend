@@ -2,6 +2,14 @@ export const ErrorMessage = {
    NETWORK_ERROR: `Please check your internet connection and try again.`,
 };
 
+export const SuccessMessage = {
+   EMAIL_UPDATED: `Email updated`,
+   USERNAME_UPDATED: `Username updated`,
+   SIGN_IN_SUCCESS: `Signed in successfully`,
+   SIGN_UP_SUCCESS: `Signed up successfully`,
+   LOG_OUT_SUCCESS: `Logged out successfully`,
+};
+
 export const FormErrorMessage = {
    EMAIL_REQUIRED: `Email is Required`,
    PASSWORD_REQUIRED: `Password is Required`,

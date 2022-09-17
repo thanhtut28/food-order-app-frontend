@@ -5,7 +5,7 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
    return (
       <div>
-         <main className="relative max-w-screen-2xl w-full mx-auto">{children}</main>
+         <main className="relative">{children}</main>
       </div>
    );
 };

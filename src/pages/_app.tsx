@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <ApolloProvider client={client}>
          <AccountProvider>
             {getLayout(<Component {...pageProps} />)}
-            <Toast.Error />
+            <Toast />
          </AccountProvider>
       </ApolloProvider>
    );
