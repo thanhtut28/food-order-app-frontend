@@ -34,7 +34,7 @@ const ProfileTemplate: React.FC = () => {
             )}
          >
             <div className="mb-8">
-               <h2 className="text-2xl sm:text-4xl font-semibold text-primary-600">
+               <h2 className="text-2xl sm:text-4xl font-semibold text-primary-light-600">
                   Personal Information
                </h2>
             </div>

@@ -48,7 +48,7 @@ const Login = () => {
    return (
       <AuthFormWrapper subtitle="Please sign in to purchase from our shop.">
          <form className="w-full" onSubmit={onSubmit}>
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex flex-col w-full gap-3">
                <Input
                   label="Email"
                   {...register(Field.EMAIL, { required: FormErrorMessage.EMAIL_REQUIRED })}

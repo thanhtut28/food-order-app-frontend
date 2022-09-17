@@ -38,7 +38,7 @@ const AccountInfo: React.FC<Props> = ({ label, info, updating, updateAction }) =
    return (
       <div
          className={cn("border bg-gray-50 border-gray-200 rounded-md p-3", {
-            "border-primary-700": editing,
+            "border-primary-light-600": editing,
          })}
       >
          <div className="flex flex-col gap-y-4">

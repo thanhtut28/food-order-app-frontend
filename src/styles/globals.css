@@ -19,7 +19,7 @@
 
    input:focus ~ label,
    input:not(:placeholder-shown) ~ label {
-      @apply -translate-y-2 text-sm;
+      @apply -top-2 bg-white text-sm;
    }
 
    input:-webkit-autofill,

@@ -53,4 +53,4 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
    );
 };
 
-// !text-primary-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-600
+// !text-primary-light-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-light-600
