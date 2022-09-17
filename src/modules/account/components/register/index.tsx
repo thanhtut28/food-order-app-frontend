@@ -23,10 +23,27 @@ const Register = () => {
       formState: { errors },
       setError,
    } = useForm<RegisterCredentials>();
-   const [signUp, { loading: signingUp }] = useSignUpMutation();
+   const [signUp, { loading: signingUp }] = useSignUpMutation({
+      onCompleted: async data => {
+         if (data?.signUp?.error?.field === Field.EMAIL) {
+            setError(Field.EMAIL, { message: data.signUp.error.message });
+            return;
+         } else if (data?.signUp?.error?.field === Field.USERNAME) {
+            setError(Field.USERNAME, { message: data.signUp.error.message });
+            return;
+         } else if (data?.signUp?.error?.field === Field.PASSWORD) {
+            setError(Field.PASSWORD, { message: data.signUp.error.message });
+            return;
+         }
+
+         await refetchUser();
+         toast.success(SuccessMessage.SIGN_UP_SUCCESS);
+      },
+      onError: () => {},
+   });
 
    const onSubmit = handleSubmit(async credentials => {
-      const { data } = await signUp({
+      await signUp({
          variables: {
             input: {
                email: credentials.email,
@@ -35,20 +52,6 @@ const Register = () => {
             },
          },
       });
-
-      if (data?.signUp?.error?.field === Field.EMAIL) {
-         setError(Field.EMAIL, { message: data.signUp.error.message });
-         return;
-      } else if (data?.signUp?.error?.field === Field.USERNAME) {
-         setError(Field.USERNAME, { message: data.signUp.error.message });
-         return;
-      } else if (data?.signUp?.error?.field === Field.PASSWORD) {
-         setError(Field.PASSWORD, { message: data.signUp.error.message });
-         return;
-      }
-
-      await refetchUser();
-      toast.success(SuccessMessage.SIGN_UP_SUCCESS);
    });
 
    return (
@@ -89,7 +92,7 @@ const Register = () => {
             </Button>
          </form>
          <div className="mt-4">
-            <span className="text-gray-500">
+            <span className="text-gray-500 text-sm">
                Already have an account?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)} className="underline">
                   Sign In
