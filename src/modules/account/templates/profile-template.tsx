@@ -16,11 +16,11 @@ const ProfileTemplate: React.FC = () => {
       return null;
    }
 
-   const handleLogout = () =>
-      logout().then(() => {
-         toast.success(SuccessMessage.LOG_OUT_SUCCESS);
-         ctx.refetchUser();
-      });
+   const handleLogout = async () => {
+      await logout();
+      await ctx.refetchUser();
+      toast.success(SuccessMessage.LOG_OUT_SUCCESS);
+   };
 
    return (
       <div className="mx-4">

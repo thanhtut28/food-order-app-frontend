@@ -6,6 +6,7 @@ import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import { useForm, FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
+import AuthFormWrapper from "../auth-form-wrapper";
 
 interface RegisterCredentials extends FieldValues {
    email: string;
@@ -33,28 +34,25 @@ const Register = () => {
                username: credentials.username,
             },
          },
-      }).then(data => {
-         refetchUser();
-         toast.success(SuccessMessage.SIGN_UP_SUCCESS);
-         return data;
       });
+
       if (data?.signUp?.error?.field === Field.EMAIL) {
          setError(Field.EMAIL, { message: data.signUp.error.message });
+         return;
       } else if (data?.signUp?.error?.field === Field.USERNAME) {
          setError(Field.USERNAME, { message: data.signUp.error.message });
+         return;
       } else if (data?.signUp?.error?.field === Field.PASSWORD) {
          setError(Field.PASSWORD, { message: data.signUp.error.message });
+         return;
       }
+
+      await refetchUser();
+      toast.success(SuccessMessage.SIGN_UP_SUCCESS);
    });
 
    return (
-      <div className="max-w-md w-full flex flex-col items-center bg-white border border-gray-200 p-8 rounded-lg m-4">
-         <h1 className="text-2xl text-primary-600 font-semibold uppercase mb-6">
-            Food Delivery App
-         </h1>
-         <p className="text-center text-base text-gray-500 mb-8">
-            Please register a new account to purchase from our shop.
-         </p>
+      <AuthFormWrapper subtitle="Please register a new account to purchase from our shop.">
          <form className="w-full" onSubmit={onSubmit}>
             <div className="flex flex-col w-full gap-2">
                <Input
@@ -98,7 +96,7 @@ const Register = () => {
                </button>
             </span>
          </div>
-      </div>
+      </AuthFormWrapper>
    );
 };
 

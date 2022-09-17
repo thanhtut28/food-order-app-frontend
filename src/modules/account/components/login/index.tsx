@@ -6,6 +6,7 @@ import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import { useForm, FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
+import AuthFormWrapper from "../auth-form-wrapper";
 
 interface LoginCredentials extends FieldValues {
    email: string;
@@ -26,26 +27,21 @@ const Login = () => {
    const onSubmit = handleSubmit(async credentials => {
       const { data } = await signIn({
          variables: { input: { email: credentials.email, password: credentials.password } },
-      }).then(data => {
-         refetchUser();
-         toast.success(SuccessMessage.SIGN_IN_SUCCESS);
-         return data;
       });
       if (data?.signIn?.error?.field === Field.EMAIL) {
          setError(Field.EMAIL, { message: data.signIn.error.message });
+         return;
       } else if (data?.signIn?.error?.field === Field.PASSWORD) {
          setError(Field.PASSWORD, { message: data.signIn.error.message });
+         return;
       }
+
+      await refetchUser();
+      toast.success(SuccessMessage.SIGN_IN_SUCCESS);
    });
 
    return (
-      <div className="max-w-md w-full flex flex-col items-center bg-white border border-gray-200 p-8 rounded-lg m-4">
-         <h1 className="text-2xl text-primary-600 font-semibold uppercase mb-6">
-            Food Delivery App
-         </h1>
-         <p className="text-center text-base text-gray-500 mb-8">
-            Please sign in to purchase from our shop.
-         </p>
+      <AuthFormWrapper subtitle="Please sign in to purchase from our shop.">
          <form className="w-full" onSubmit={onSubmit}>
             <div className="flex flex-col w-full gap-2">
                <Input
@@ -79,7 +75,7 @@ const Login = () => {
                </button>
             </span>
          </div>
-      </div>
+      </AuthFormWrapper>
    );
 };
 

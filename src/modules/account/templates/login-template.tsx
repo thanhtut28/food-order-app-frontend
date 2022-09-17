@@ -10,7 +10,6 @@ const LoginTemplate = () => {
    const { replace } = useRouter();
 
    useEffect(() => {
-      console.log(ctx.me);
       if (ctx.me && !ctx.retrievingUser) {
          replace("/account/profile");
       }
