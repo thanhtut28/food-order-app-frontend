@@ -15,11 +15,7 @@ const LoginTemplate = () => {
       }
    }, [ctx.me, ctx.retrievingUser, replace]);
 
-   return (
-      <div className="w-full flex justify-center py-32">
-         {currentView === LOGIN_VIEW.SIGN_IN ? <Login /> : <Register />}
-      </div>
-   );
+   return <>{currentView === LOGIN_VIEW.SIGN_IN ? <Login /> : <Register />}</>;
 };
 
 export default LoginTemplate;

@@ -43,7 +43,7 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
       <Link href={href}>
          <a
             className={cn("text-gray-800 text-base block px-4 py-1", {
-               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-black":
+               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black":
                   active,
             })}
          >
