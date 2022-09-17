@@ -3,13 +3,18 @@ import { useAccount } from "@/lib/context/account-context";
 import { useLogoutMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import cn from "classnames";
-import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import ProfileEmail from "../components/profile-email";
 import ProfileUsername from "../components/profile-username";
 
 const ProfileTemplate: React.FC = () => {
-   const [logout, { loading: loggingOut }] = useLogoutMutation();
+   const [logout, { loading: loggingOut }] = useLogoutMutation({
+      onError: () => {},
+      onCompleted: async () => {
+         await ctx.refetchUser();
+         toast.success(SuccessMessage.LOG_OUT_SUCCESS);
+      },
+   });
    const ctx = useAccount();
 
    if (ctx.retrievingUser || !ctx.me) {
@@ -18,8 +23,6 @@ const ProfileTemplate: React.FC = () => {
 
    const handleLogout = async () => {
       await logout();
-      await ctx.refetchUser();
-      toast.success(SuccessMessage.LOG_OUT_SUCCESS);
    };
 
    return (

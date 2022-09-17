@@ -14,9 +14,11 @@ const ProfileEditAction: React.FC<Props> = ({ editing, setEditing, cancelAction,
       <>
          {editing ? (
             <div className="flex gap-2">
-               <Button variant="secondary-action" onClick={cancelAction}>
-                  cancel
-               </Button>
+               {!updating && (
+                  <Button variant="secondary-action" onClick={cancelAction}>
+                     cancel
+                  </Button>
+               )}
                <Button variant="primary-action" type="submit" isLoading={updating}>
                   save
                </Button>

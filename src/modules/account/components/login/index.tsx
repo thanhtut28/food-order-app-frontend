@@ -4,6 +4,7 @@ import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
 import { useSignInMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
+import Link from "next/link";
 import { useForm, FieldValues } from "react-hook-form";
 import { toast } from "react-toastify";
 import AuthFormWrapper from "../auth-form-wrapper";
@@ -22,22 +23,26 @@ const Login = () => {
       formState: { errors },
       setError,
    } = useForm<LoginCredentials>();
-   const [signIn, { loading: signingIn }] = useSignInMutation();
+   const [signIn, { loading: signingIn }] = useSignInMutation({
+      onCompleted: async data => {
+         if (data?.signIn?.error?.field === Field.EMAIL) {
+            setError(Field.EMAIL, { message: data.signIn.error.message });
+            return;
+         } else if (data?.signIn?.error?.field === Field.PASSWORD) {
+            setError(Field.PASSWORD, { message: data.signIn.error.message });
+            return;
+         }
+
+         await refetchUser().catch(() => {});
+         toast.success(SuccessMessage.SIGN_IN_SUCCESS);
+      },
+      onError: () => {},
+   });
 
    const onSubmit = handleSubmit(async credentials => {
-      const { data } = await signIn({
+      await signIn({
          variables: { input: { email: credentials.email, password: credentials.password } },
       });
-      if (data?.signIn?.error?.field === Field.EMAIL) {
-         setError(Field.EMAIL, { message: data.signIn.error.message });
-         return;
-      } else if (data?.signIn?.error?.field === Field.PASSWORD) {
-         setError(Field.PASSWORD, { message: data.signIn.error.message });
-         return;
-      }
-
-      await refetchUser();
-      toast.success(SuccessMessage.SIGN_IN_SUCCESS);
    });
 
    return (
@@ -68,11 +73,18 @@ const Login = () => {
             </Button>
          </form>
          <div className="mt-4">
-            <span className="text-gray-500">
+            <span className="text-gray-500 text-sm">
                Not Registered?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)} className="underline">
                   Join us
                </button>
+            </span>
+         </div>
+         <div className="mt-1">
+            <span className="text-gray-500 text-sm">
+               <Link href="/account/forgot-password">
+                  <a className="underline">Forgot Password?</a>
+               </Link>
             </span>
          </div>
       </AuthFormWrapper>

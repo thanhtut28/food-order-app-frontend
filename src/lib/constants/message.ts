@@ -8,6 +8,8 @@ export const SuccessMessage = {
    SIGN_IN_SUCCESS: `Signed in successfully`,
    SIGN_UP_SUCCESS: `Signed up successfully`,
    LOG_OUT_SUCCESS: `Logged out successfully`,
+   EMAIL_SENT: `Email sent to your email.`,
+   CHANGE_PASSWORD_SUCCESS: `Change password successfully`,
 };
 
 export const FormErrorMessage = {

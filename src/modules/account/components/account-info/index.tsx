@@ -31,7 +31,8 @@ const AccountInfo: React.FC<Props> = ({ label, info, updating, updateAction }) =
 
    const handleUpdateInfo = async (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault();
-      updateAction(value).then(() => clearState());
+      await updateAction(value);
+      clearState();
    };
 
    return (

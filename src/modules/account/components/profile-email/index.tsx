@@ -10,14 +10,12 @@ interface Props {
 const ProfileEmail: React.FC<Props> = ({ me }) => {
    const [updateEmail, { loading: updatingEmail }] = useUpdateEmailMutation({
       refetchQueries: [MeDocument],
+      onCompleted: () => toast.success(SuccessMessage.EMAIL_UPDATED),
+      onError: () => {},
    });
 
    const handleUpdateEmail = async (email: string) => {
-      updateEmail({ variables: { email } })
-         .then(() => {
-            toast.success(SuccessMessage.EMAIL_UPDATED);
-         })
-         .catch(() => {});
+      await updateEmail({ variables: { email } });
    };
 
    return (

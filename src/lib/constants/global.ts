@@ -2,6 +2,7 @@ export enum Field {
    EMAIL = "email",
    PASSWORD = "password",
    USERNAME = "username",
+   TOKEN = "token",
 }
 
 export const toastClass = {

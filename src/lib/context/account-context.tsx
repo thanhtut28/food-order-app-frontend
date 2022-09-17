@@ -33,7 +33,11 @@ interface AccountContextInterface {
 const AccountContext = createContext<AccountContextInterface | null>(null);
 
 export const AccountProvider = ({ children }: { children?: React.ReactNode }) => {
-   const { data, loading: retrievingUser, refetch } = useMeQuery({ fetchPolicy: "network-only" });
+   const {
+      data,
+      loading: retrievingUser,
+      refetch,
+   } = useMeQuery({ fetchPolicy: "network-only", onError: () => {} });
    const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN);
 
    const { replace } = useRouter();
