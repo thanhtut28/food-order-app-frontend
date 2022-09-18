@@ -6,8 +6,15 @@ import { useRouter } from "next/router";
 
 const LoginTemplate = () => {
    const ctx = useAccount();
+   const { refetchUser } = ctx;
    const [currentView, _] = ctx.loginView;
-   const { replace } = useRouter();
+   const { replace, query } = useRouter();
+
+   useEffect(() => {
+      if (query.refetch === "true") {
+         refetchUser();
+      }
+   }, [query.refetch, refetchUser]);
 
    useEffect(() => {
       if (ctx.me && !ctx.retrievingUser) {

@@ -6,8 +6,6 @@ const AccountNav = () => {
    const router = useRouter();
    const { route } = router;
 
-   console.log(router);
-
    return (
       <div className="flex">
          <div className="flex w-full justify-center items-center border py-2 bg-neutral-100">
