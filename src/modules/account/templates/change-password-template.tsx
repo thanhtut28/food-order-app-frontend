@@ -13,11 +13,7 @@ const ChangePasswordTemplate = () => {
       }
    }, [ctx.me, ctx.retrievingUser, replace]);
 
-   return (
-      <div className="w-full flex justify-center py-32">
-         <ChangePassword />
-      </div>
-   );
+   return <ChangePassword />;
 };
 
 export default ChangePasswordTemplate;

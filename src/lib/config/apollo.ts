@@ -1,6 +1,7 @@
 import { ErrorMessage } from "@/lib/constants/message";
 import { createHttpLink, InMemoryCache, ApolloClient, from } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import Router from "next/router";
 import { toast } from "react-toastify";
 
 const httpLink = createHttpLink({
@@ -12,6 +13,9 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
    if (graphQLErrors) {
       graphQLErrors.map(({ message, locations, path }) => {
          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
+         if (message.includes(ErrorMessage.NOT_AUTHENTICATED)) {
+            Router.replace("/account/login?refetch=true");
+         }
          toast.error(`[Server Error]: ${message}`);
       });
    }

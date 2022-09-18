@@ -56,7 +56,7 @@ const ChangePassword = () => {
          <form className="w-full" onSubmit={onSubmit}>
             <div className="flex flex-col w-full gap-2">
                <Input
-                  label="Password"
+                  label="New Password"
                   {...register(Field.PASSWORD, {
                      required: FormErrorMessage.PASSWORD_REQUIRED,
                      minLength: { value: 4, message: FormErrorMessage.PASSWORD_GT_4 },
@@ -68,7 +68,7 @@ const ChangePassword = () => {
                />
             </div>
             <Button type="submit" className="mt-8" isLoading={changePasswordLoading}>
-               Continue
+               Confirm
             </Button>
          </form>
          {hasTokenError && (

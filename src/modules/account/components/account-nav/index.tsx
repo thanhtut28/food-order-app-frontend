@@ -6,8 +6,6 @@ const AccountNav = () => {
    const router = useRouter();
    const { route } = router;
 
-   console.log(router);
-
    return (
       <div className="flex">
          <div className="flex w-full justify-center items-center border py-2 bg-neutral-100">
@@ -43,7 +41,7 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
       <Link href={href}>
          <a
             className={cn("text-gray-800 text-base block px-4 py-1", {
-               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[1px] after:bg-black":
+               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black":
                   active,
             })}
          >
@@ -53,4 +51,4 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
    );
 };
 
-// !text-primary-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-600
+// !text-primary-light-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-light-600

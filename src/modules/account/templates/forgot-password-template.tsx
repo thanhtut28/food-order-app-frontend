@@ -13,11 +13,7 @@ const ForgotPasswordTemplate = () => {
       }
    }, [ctx.me, ctx.retrievingUser, replace]);
 
-   return (
-      <div className="w-full flex justify-center py-32">
-         <ForgotPassword />
-      </div>
-   );
+   return <ForgotPassword />;
 };
 
 export default ForgotPasswordTemplate;

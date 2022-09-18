@@ -6,8 +6,15 @@ import { useRouter } from "next/router";
 
 const LoginTemplate = () => {
    const ctx = useAccount();
+   const { refetchUser } = ctx;
    const [currentView, _] = ctx.loginView;
-   const { replace } = useRouter();
+   const { replace, query } = useRouter();
+
+   useEffect(() => {
+      if (query.refetch === "true") {
+         refetchUser();
+      }
+   }, [query.refetch, refetchUser]);
 
    useEffect(() => {
       if (ctx.me && !ctx.retrievingUser) {
@@ -15,11 +22,7 @@ const LoginTemplate = () => {
       }
    }, [ctx.me, ctx.retrievingUser, replace]);
 
-   return (
-      <div className="w-full flex justify-center py-32">
-         {currentView === LOGIN_VIEW.SIGN_IN ? <Login /> : <Register />}
-      </div>
-   );
+   return <>{currentView === LOGIN_VIEW.SIGN_IN ? <Login /> : <Register />}</>;
 };
 
 export default LoginTemplate;

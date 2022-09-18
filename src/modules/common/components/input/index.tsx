@@ -43,7 +43,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   name={name}
                   placeholder=" "
                   className={cn(
-                     `peer pt-6 pb-1 block w-full outline-none px-4 transition-all duration-200 mt-0 bg-transparent border-2 rounded-md appearance-none focus:outline-none focus:ring-primary-700 focus:border-primary-700 border-gray-600`,
+                     `peer py-3 block w-full outline-none px-4 transition-all duration-200 mt-0 bg-transparent border-2 rounded-md appearance-none focus:outline-none focus:ring-primary-light-600 focus:border-primary-light-600 border-gray-600`,
                      {
                         "border-rose-400 focus:border-rose-400": hasError,
                      }
@@ -55,10 +55,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   htmlFor={name}
                   onClick={() => inputRef.current?.focus()}
                   className={cn(
-                     `mx-3 px-1 transition-all absolute duration-200 top-4 text-gray-500`,
+                     `mx-3 px-1 transition-all absolute duration-300 top-3 text-gray-500`,
                      {
                         "text-rose-400": hasError,
-                        "peer-focus:text-primary-700": !hasError,
+                        "peer-focus:text-primary-light-600": !hasError,
                      }
                   )}
                >
@@ -70,7 +70,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                      type="button"
                      //type button makes the button focusable
                      onClick={handleToggleShowPassword}
-                     className="text-gray-400 px-4 focus:outline-none transition-all duration-150 outline-none focus:text-primary-700 absolute right-0 top-4"
+                     className="text-gray-400 px-4 focus:outline-none transition-all duration-150 outline-none focus:text-primary-light-600 absolute right-0 top-4"
                   >
                      {showPassword ? <Eye /> : <EyeOff />}
                   </button>

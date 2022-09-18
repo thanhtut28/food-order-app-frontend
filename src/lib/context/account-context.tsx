@@ -44,7 +44,6 @@ export const AccountProvider = ({ children }: { children?: React.ReactNode }) =>
 
    const checkAuth = useCallback(() => {
       if (!data?.me && !retrievingUser) {
-         console.log("rendering");
          replace(`/account/login`);
       }
    }, [data?.me, replace, retrievingUser]);
