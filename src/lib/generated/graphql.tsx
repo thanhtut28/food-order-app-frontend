@@ -22,6 +22,16 @@ export type AuthenticationResponse = {
   user?: Maybe<User>;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  ingredients: Array<Ingredient>;
+  menuItems: Array<MenuItem>;
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type ChangePasswordInput = {
   newPassword: Scalars['String'];
   token: Scalars['String'];
@@ -33,26 +43,88 @@ export type ChangePasswordResponse = {
   success: Scalars['Boolean'];
 };
 
+export type CreateIngredientInput = {
+  categories: Array<Scalars['String']>;
+  name: Scalars['String'];
+};
+
+export type CreateMenuItemInput = {
+  categoryId?: InputMaybe<Scalars['Int']>;
+  name: Scalars['String'];
+  photo: Scalars['String'];
+  price: Scalars['Float'];
+};
+
 export type ErrorResponse = {
   __typename?: 'ErrorResponse';
   field: Scalars['String'];
   message: Scalars['String'];
 };
 
+export type Ingredient = {
+  __typename?: 'Ingredient';
+  categories: Array<Category>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  menuItems: Array<MenuItem>;
+  name: Scalars['String'];
+  updatedAt: Scalars['DateTime'];
+};
+
+export type MenuItem = {
+  __typename?: 'MenuItem';
+  categortId?: Maybe<Scalars['Int']>;
+  category?: Maybe<Category>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  ingredients: Array<Ingredient>;
+  ingredientsCount: Scalars['Int'];
+  name: Scalars['String'];
+  photo: Scalars['String'];
+  price: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  addIngredientToItem: MenuItem;
   changePassword: ChangePasswordResponse;
+  createCategory: Category;
+  createIngredient: Ingredient;
+  createMenuItem: MenuItem;
   forgotPassword: ChangePasswordResponse;
   logout: Scalars['Boolean'];
   signIn?: Maybe<AuthenticationResponse>;
   signUp: AuthenticationResponse;
   updateEmail: Scalars['Boolean'];
+  updateMenuItem: MenuItem;
   updateUsername: Scalars['Boolean'];
+};
+
+
+export type MutationAddIngredientToItemArgs = {
+  ingredients: Array<Scalars['String']>;
+  itemId: Scalars['Int'];
 };
 
 
 export type MutationChangePasswordArgs = {
   input: ChangePasswordInput;
+};
+
+
+export type MutationCreateCategoryArgs = {
+  name: Scalars['String'];
+};
+
+
+export type MutationCreateIngredientArgs = {
+  input: CreateIngredientInput;
+};
+
+
+export type MutationCreateMenuItemArgs = {
+  input: CreateMenuItemInput;
 };
 
 
@@ -76,14 +148,34 @@ export type MutationUpdateEmailArgs = {
 };
 
 
+export type MutationUpdateMenuItemArgs = {
+  input: UpdateMenuItemInput;
+};
+
+
 export type MutationUpdateUsernameArgs = {
   username: Scalars['String'];
 };
 
 export type Query = {
   __typename?: 'Query';
+  getAllIngredients: Array<Ingredient>;
+  getAllMenuItems: Array<MenuItem>;
+  getBannerItems?: Maybe<Array<MenuItem>>;
+  getMenuItemsByCategory: Array<MenuItem>;
+  getMenuItemsByIngredient: Array<MenuItem>;
   me?: Maybe<User>;
   users: Array<User>;
+};
+
+
+export type QueryGetMenuItemsByCategoryArgs = {
+  categoryId: Scalars['Int'];
+};
+
+
+export type QueryGetMenuItemsByIngredientArgs = {
+  ingredientId: Scalars['Int'];
 };
 
 export type SignInUserInput = {
@@ -95,6 +187,14 @@ export type SignUpUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type UpdateMenuItemInput = {
+  categoryId?: InputMaybe<Scalars['Int']>;
+  itemId: Scalars['Int'];
+  name?: InputMaybe<Scalars['String']>;
+  photo?: InputMaybe<Scalars['String']>;
+  price?: InputMaybe<Scalars['Float']>;
 };
 
 export type User = {
@@ -152,6 +252,11 @@ export type UpdateUsernameMutationVariables = Exact<{
 
 
 export type UpdateUsernameMutation = { __typename?: 'Mutation', updateUsername: boolean };
+
+export type GetBannerItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetBannerItemsQuery = { __typename?: 'Query', getBannerItems?: Array<{ __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category?: { __typename?: 'Category', name: string } | null }> | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -407,6 +512,46 @@ export function useUpdateUsernameMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateUsernameMutationHookResult = ReturnType<typeof useUpdateUsernameMutation>;
 export type UpdateUsernameMutationResult = Apollo.MutationResult<UpdateUsernameMutation>;
 export type UpdateUsernameMutationOptions = Apollo.BaseMutationOptions<UpdateUsernameMutation, UpdateUsernameMutationVariables>;
+export const GetBannerItemsDocument = gql`
+    query GetBannerItems {
+  getBannerItems {
+    id
+    name
+    photo
+    price
+    category {
+      name
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetBannerItemsQuery__
+ *
+ * To run a query within a React component, call `useGetBannerItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetBannerItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetBannerItemsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetBannerItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetBannerItemsQuery, GetBannerItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetBannerItemsQuery, GetBannerItemsQueryVariables>(GetBannerItemsDocument, options);
+      }
+export function useGetBannerItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBannerItemsQuery, GetBannerItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetBannerItemsQuery, GetBannerItemsQueryVariables>(GetBannerItemsDocument, options);
+        }
+export type GetBannerItemsQueryHookResult = ReturnType<typeof useGetBannerItemsQuery>;
+export type GetBannerItemsLazyQueryHookResult = ReturnType<typeof useGetBannerItemsLazyQuery>;
+export type GetBannerItemsQueryResult = Apollo.QueryResult<GetBannerItemsQuery, GetBannerItemsQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

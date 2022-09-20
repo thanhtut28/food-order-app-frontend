@@ -54,6 +54,6 @@ module.exports = {
          },
       },
    },
-   safelist: ["bg-red-400", "bg-primary-light-500"],
+   safelist: ["bg-red-700", "bg-primary-light-500"],
    plugins: [],
 };

@@ -1,5 +1,5 @@
+import AuthenticationLayout from "@/modules/account/templates/authentication-layout";
 import ChangePasswordTemplate from "@/modules/account/templates/change-password-template";
-import Layout from "@/modules/layout/templates";
 import { NextPageWithLayout } from "@/types/global";
 
 const ChangePasswordPage: NextPageWithLayout = () => {
@@ -7,7 +7,7 @@ const ChangePasswordPage: NextPageWithLayout = () => {
 };
 
 ChangePasswordPage.getLayout = page => {
-   return <Layout>{page}</Layout>;
+   return <AuthenticationLayout>{page}</AuthenticationLayout>;
 };
 
 export default ChangePasswordPage;

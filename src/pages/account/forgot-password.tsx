@@ -1,5 +1,5 @@
+import AuthenticationLayout from "@/modules/account/templates/authentication-layout";
 import ForgotPasswordTemplate from "@/modules/account/templates/forgot-password-template";
-import Layout from "@/modules/layout/templates";
 import { NextPageWithLayout } from "@/types/global";
 
 const ForgotPasswordPage: NextPageWithLayout = () => {
@@ -7,7 +7,7 @@ const ForgotPasswordPage: NextPageWithLayout = () => {
 };
 
 ForgotPasswordPage.getLayout = page => {
-   return <Layout>{page}</Layout>;
+   return <AuthenticationLayout>{page}</AuthenticationLayout>;
 };
 
 export default ForgotPasswordPage;

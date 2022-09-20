@@ -1,0 +1,11 @@
+query GetBannerItems {
+   getBannerItems {
+      id
+      name
+      photo
+      price
+      category {
+         name
+      }
+   }
+}

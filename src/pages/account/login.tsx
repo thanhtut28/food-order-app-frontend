@@ -1,5 +1,5 @@
+import AuthenticationLayout from "@/modules/account/templates/authentication-layout";
 import LoginTemplate from "@/modules/account/templates/login-template";
-import Layout from "@/modules/layout/templates";
 import { NextPageWithLayout } from "@/types/global";
 
 const LoginPage: NextPageWithLayout = () => {
@@ -7,7 +7,7 @@ const LoginPage: NextPageWithLayout = () => {
 };
 
 LoginPage.getLayout = page => {
-   return <Layout>{page}</Layout>;
+   return <AuthenticationLayout>{page}</AuthenticationLayout>;
 };
 
 export default LoginPage;
