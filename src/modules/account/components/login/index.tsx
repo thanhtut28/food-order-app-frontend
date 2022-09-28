@@ -72,15 +72,15 @@ const Login = () => {
                Sign In
             </Button>
          </form>
-         <div className="mt-4 flex justify-between">
-            <span className="text-gray-500 text-sm">
+         <div className="mt-6 flex justify-between">
+            <span className="text-gray-500 text-xs">
                Not Registered?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)} className="underline">
                   Join us
                </button>
             </span>
 
-            <span className="text-gray-500 text-sm">
+            <span className="text-gray-500 text-xs">
                <Link href="/account/forgot-password">
                   <a className="underline">Forgot Password?</a>
                </Link>

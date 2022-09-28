@@ -1,0 +1,8 @@
+query GetMenuItemsByCategory($categoryId: Int) {
+   getMenuItemsByCategory(categoryId: $categoryId) {
+      id
+      name
+      photo
+      price
+   }
+}

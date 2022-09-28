@@ -61,6 +61,12 @@ export type ErrorResponse = {
   message: Scalars['String'];
 };
 
+export type FeaturedItemsResponse = {
+  __typename?: 'FeaturedItemsResponse';
+  label: Scalars['String'];
+  menuItem: MenuItem;
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   categories: Array<Category>;
@@ -159,9 +165,10 @@ export type MutationUpdateUsernameArgs = {
 
 export type Query = {
   __typename?: 'Query';
+  getAllCategories: Array<Category>;
   getAllIngredients: Array<Ingredient>;
   getAllMenuItems: Array<MenuItem>;
-  getBannerItems?: Maybe<Array<MenuItem>>;
+  getFeaturedItems: Array<MenuItem>;
   getMenuItemsByCategory: Array<MenuItem>;
   getMenuItemsByIngredient: Array<MenuItem>;
   me?: Maybe<User>;
@@ -170,7 +177,7 @@ export type Query = {
 
 
 export type QueryGetMenuItemsByCategoryArgs = {
-  categoryId: Scalars['Int'];
+  categoryId?: InputMaybe<Scalars['Int']>;
 };
 
 
@@ -253,10 +260,17 @@ export type UpdateUsernameMutationVariables = Exact<{
 
 export type UpdateUsernameMutation = { __typename?: 'Mutation', updateUsername: boolean };
 
-export type GetBannerItemsQueryVariables = Exact<{ [key: string]: never; }>;
+export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetBannerItemsQuery = { __typename?: 'Query', getBannerItems?: Array<{ __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category?: { __typename?: 'Category', name: string } | null }> | null };
+export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', id: number, name: string, menuItems: Array<{ __typename?: 'MenuItem', photo: string }> }> };
+
+export type GetMenuItemsByCategoryQueryVariables = Exact<{
+  categoryId?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetMenuItemsByCategoryQuery = { __typename?: 'Query', getMenuItemsByCategory: Array<{ __typename?: 'MenuItem', id: number, name: string, photo: string, price: number }> };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -512,46 +526,82 @@ export function useUpdateUsernameMutation(baseOptions?: Apollo.MutationHookOptio
 export type UpdateUsernameMutationHookResult = ReturnType<typeof useUpdateUsernameMutation>;
 export type UpdateUsernameMutationResult = Apollo.MutationResult<UpdateUsernameMutation>;
 export type UpdateUsernameMutationOptions = Apollo.BaseMutationOptions<UpdateUsernameMutation, UpdateUsernameMutationVariables>;
-export const GetBannerItemsDocument = gql`
-    query GetBannerItems {
-  getBannerItems {
+export const GetAllCategoriesDocument = gql`
+    query GetAllCategories {
+  getAllCategories {
     id
     name
-    photo
-    price
-    category {
-      name
+    menuItems {
+      photo
     }
   }
 }
     `;
 
 /**
- * __useGetBannerItemsQuery__
+ * __useGetAllCategoriesQuery__
  *
- * To run a query within a React component, call `useGetBannerItemsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetBannerItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetAllCategoriesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllCategoriesQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetBannerItemsQuery({
+ * const { data, loading, error } = useGetAllCategoriesQuery({
  *   variables: {
  *   },
  * });
  */
-export function useGetBannerItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetBannerItemsQuery, GetBannerItemsQueryVariables>) {
+export function useGetAllCategoriesQuery(baseOptions?: Apollo.QueryHookOptions<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetBannerItemsQuery, GetBannerItemsQueryVariables>(GetBannerItemsDocument, options);
+        return Apollo.useQuery<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>(GetAllCategoriesDocument, options);
       }
-export function useGetBannerItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetBannerItemsQuery, GetBannerItemsQueryVariables>) {
+export function useGetAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>) {
           const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetBannerItemsQuery, GetBannerItemsQueryVariables>(GetBannerItemsDocument, options);
+          return Apollo.useLazyQuery<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>(GetAllCategoriesDocument, options);
         }
-export type GetBannerItemsQueryHookResult = ReturnType<typeof useGetBannerItemsQuery>;
-export type GetBannerItemsLazyQueryHookResult = ReturnType<typeof useGetBannerItemsLazyQuery>;
-export type GetBannerItemsQueryResult = Apollo.QueryResult<GetBannerItemsQuery, GetBannerItemsQueryVariables>;
+export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategoriesQuery>;
+export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
+export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
+export const GetMenuItemsByCategoryDocument = gql`
+    query GetMenuItemsByCategory($categoryId: Int) {
+  getMenuItemsByCategory(categoryId: $categoryId) {
+    id
+    name
+    photo
+    price
+  }
+}
+    `;
+
+/**
+ * __useGetMenuItemsByCategoryQuery__
+ *
+ * To run a query within a React component, call `useGetMenuItemsByCategoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMenuItemsByCategoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMenuItemsByCategoryQuery({
+ *   variables: {
+ *      categoryId: // value for 'categoryId'
+ *   },
+ * });
+ */
+export function useGetMenuItemsByCategoryQuery(baseOptions?: Apollo.QueryHookOptions<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>(GetMenuItemsByCategoryDocument, options);
+      }
+export function useGetMenuItemsByCategoryLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>(GetMenuItemsByCategoryDocument, options);
+        }
+export type GetMenuItemsByCategoryQueryHookResult = ReturnType<typeof useGetMenuItemsByCategoryQuery>;
+export type GetMenuItemsByCategoryLazyQueryHookResult = ReturnType<typeof useGetMenuItemsByCategoryLazyQuery>;
+export type GetMenuItemsByCategoryQueryResult = Apollo.QueryResult<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {

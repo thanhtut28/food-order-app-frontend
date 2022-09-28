@@ -1,15 +1,18 @@
-import { GetBannerItemsQuery } from "@/lib/generated/graphql";
-import Banner from "../components/banner";
+import { GetAllCategoriesQuery } from "@/lib/generated/graphql";
+import CTA from "../components/cta";
+import FeaturedProducts from "../components/featured-products";
 
 interface Props {
-   items: GetBannerItemsQuery["getBannerItems"];
+   categories: GetAllCategoriesQuery["getAllCategories"];
 }
 
-const HeroTemplate: React.FC<Props> = ({ items }) => {
+const HeroTemplate: React.FC<Props> = ({ categories }) => {
    return (
-      <div className="flex flex-col gap-8">
-         <Banner item={items?.[0]!} label="chicken burger" />
-         <Banner item={items?.[1]!} label="beef burger" />
+      <div className="">
+         <CTA />
+         <div className="my-10" />
+         {/* <Banner item={items?.[1].menuItem!} label="beef burger" /> */}
+         <FeaturedProducts categories={categories} />
       </div>
    );
 };

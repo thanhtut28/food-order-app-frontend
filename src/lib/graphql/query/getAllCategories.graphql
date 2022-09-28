@@ -1,0 +1,9 @@
+query GetAllCategories {
+   getAllCategories {
+      id
+      name
+      menuItems {
+         photo
+      }
+   }
+}

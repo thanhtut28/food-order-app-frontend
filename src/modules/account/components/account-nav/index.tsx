@@ -1,54 +1,37 @@
-import cn from "classnames";
-import Link from "next/link";
+import ChevronDown from "@/modules/common/icons/chevron-down";
 import { useRouter } from "next/router";
+import AccountNavLink from "../account-navlink";
 
 const AccountNav = () => {
    const router = useRouter();
    const { route } = router;
 
    return (
-      <div className="flex">
-         <div className="flex w-full justify-center items-center border py-2 bg-neutral-100">
-            <ul className="flex gap-3">
-               <li className="relative">
-                  <AccountNavLink href="/account" route={route}>
-                     Overview
-                  </AccountNavLink>
-               </li>
-               <li className="relative">
-                  <AccountNavLink href="/account/profile" route={route}>
-                     Profile
-                  </AccountNavLink>
-               </li>
+      <>
+         <div className="rounded-xl">
+            <ul className="flex gap-4 small-phones:gap-2 sm:gap-0 flex-row justify-between px-1 py-3 sm:py-0 sm:flex-col sm:px-4 bg-neutral-100 rounded-lg sm:bg-transparent">
+               <AccountNavLink href="/account" route={route}>
+                  Overview
+               </AccountNavLink>
+
+               <AccountNavLink href="/account/profile" route={route}>
+                  Profile
+               </AccountNavLink>
+
+               <AccountNavLink href="/account/orders" route={route}>
+                  Orders
+               </AccountNavLink>
+
+               <AccountNavLink href="/account/analytics" route={route}>
+                  Analytics
+               </AccountNavLink>
             </ul>
          </div>
-      </div>
+      </>
    );
 };
 
 export default AccountNav;
 
-interface AccountNavLinkProps {
-   href: string;
-   route: string;
-   children: React.ReactNode;
-}
-
-const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }) => {
-   const active = href === route;
-
-   return (
-      <Link href={href}>
-         <a
-            className={cn("text-gray-800 text-base block px-4 py-1", {
-               "after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black":
-                  active,
-            })}
-         >
-            {children}
-         </a>
-      </Link>
-   );
-};
-
-// !text-primary-light-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-light-600
+// !text-primary-700 before:content-[''] before:top-0 before:left-0 before:bottom-0 before:h-full before:absolute before:w-1 before:bg-primary-600
+// after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-black

@@ -37,12 +37,12 @@ const AccountInfo: React.FC<Props> = ({ label, info, updating, updateAction }) =
 
    return (
       <div
-         className={cn("border bg-gray-50 border-gray-200 rounded-md p-3", {
-            "border-primary-light-600": editing,
+         className={cn("border bg-neutral-50 rounded-xl p-3", {
+            "border-primary-500": editing,
          })}
       >
          <div className="flex flex-col gap-y-4">
-            <h6 className="text-sm text-slate-900 uppercase">{label}</h6>
+            <h6 className="text-sm text-slate-900 font-semibold capitalize">{label}</h6>
             <form onSubmit={handleUpdateInfo} className="flex justify-between">
                {editing ? (
                   <input

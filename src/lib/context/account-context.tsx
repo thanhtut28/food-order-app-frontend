@@ -1,13 +1,7 @@
 import { ApolloQueryResult } from "@apollo/client";
 import { useRouter } from "next/router";
 import { createContext, useContext, useState, useCallback } from "react";
-import {
-   Exact,
-   LogoutMutationFn,
-   MeQuery,
-   useLogoutMutation,
-   useMeQuery,
-} from "../generated/graphql";
+import { Exact, MeQuery, useMeQuery } from "../generated/graphql";
 
 export enum LOGIN_VIEW {
    SIGN_IN = "sign-in",

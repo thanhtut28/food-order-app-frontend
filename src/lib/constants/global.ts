@@ -6,8 +6,8 @@ export enum Field {
 }
 
 export const toastClass = {
-   success: "bg-primary-light-500",
-   error: "bg-red-700",
+   success: "bg-primary-200 text-primary-700",
+   error: "bg-red-200 text-red-700",
    info: "bg-gray-600",
    warning: "bg-orange-400",
    default: "bg-indigo-600",

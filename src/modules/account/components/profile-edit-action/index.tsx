@@ -19,7 +19,7 @@ const ProfileEditAction: React.FC<Props> = ({ editing, setEditing, cancelAction,
                      cancel
                   </Button>
                )}
-               <Button variant="primary-light-action" type="submit" isLoading={updating}>
+               <Button variant="primary-action" type="submit" isLoading={updating}>
                   save
                </Button>
             </div>

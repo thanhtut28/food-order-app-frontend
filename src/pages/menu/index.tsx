@@ -1,7 +1,7 @@
 import { initializeApollo } from "@/lib/config/apollo";
 import { GetAllCategoriesDocument, GetAllCategoriesQuery } from "@/lib/generated/graphql";
-import HeroTemplate from "@/modules/home/templates/hero-template";
 import Layout from "@/modules/layout/templates";
+import MenuTemplate from "@/modules/menu/templates/menu-templates";
 import { NextPageWithLayout } from "@/types/global";
 import { GetStaticProps } from "next";
 
@@ -9,15 +9,15 @@ interface Props {
    categories: GetAllCategoriesQuery["getAllCategories"];
 }
 
-const Home: NextPageWithLayout<Props> = ({ categories }) => {
-   return <HeroTemplate categories={categories} />;
+const Menu: NextPageWithLayout<Props> = ({ categories }) => {
+   return <MenuTemplate categories={categories} />;
 };
 
-Home.getLayout = page => {
+Menu.getLayout = page => {
    return <Layout>{page}</Layout>;
 };
 
-export default Home;
+export default Menu;
 
 export const getStaticProps: GetStaticProps = async () => {
    const apolloClient = initializeApollo();

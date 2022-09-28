@@ -2,24 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
-/** @layer base {
+@layer base {
    :root {
+      --toastify-color-success: #d87607 !important;
+      --toastify-icon-color-success: var(--toastify-color-success);
+      --toastify-color-progress-success: var(--toastify-color-success);
       --toastify-color-error: #ef4444 !important;
-
-      --toastify-icon-color-error: var(toastify-color-error);
-      --toastify-color-progress-error: var(toastify-color-error);
+      --toastify-icon-color-error: var(--toastify-color-error);
+      --toastify-color-progress-error: var(--toastify-color-error);
    }
-} **/
+}
 
 @layer utilities {
    html {
-      font-family: Pally, system-ui, sans-serif;
-      @apply bg-gray-50;
+      @apply bg-neutral-50;
    }
 
    input:focus ~ label,
    input:not(:placeholder-shown) ~ label {
-      @apply -top-2 bg-white text-sm;
+      @apply -top-2 bg-white;
    }
 
    input:-webkit-autofill,
@@ -42,5 +43,11 @@
    input[type="search"]::-webkit-search-results-button,
    input[type="search"]::-webkit-search-results-decoration {
       -webkit-appearance: none;
+   }
+}
+
+@layer components {
+   .active-tab {
+      box-shadow: 0 -5px 16px -6px rgb(244 157 12 / 0.5);
    }
 }

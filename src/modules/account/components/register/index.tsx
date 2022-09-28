@@ -91,8 +91,8 @@ const Register = () => {
                Sign Up
             </Button>
          </form>
-         <div className="mt-4">
-            <span className="text-gray-500 text-sm">
+         <div className="mt-6">
+            <span className="text-gray-500 text-xs">
                Already have an account?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)} className="underline">
                   Sign In

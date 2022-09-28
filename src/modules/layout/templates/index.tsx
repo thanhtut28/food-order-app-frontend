@@ -1,3 +1,5 @@
+import Nav from "./nav";
+
 interface Props {
    children: React.ReactNode;
 }
@@ -5,7 +7,8 @@ interface Props {
 const Layout: React.FC<Props> = ({ children }) => {
    return (
       <div>
-         <main className="relative">{children}</main>
+         <Nav />
+         <main className="py-24">{children}</main>
       </div>
    );
 };

@@ -19,6 +19,7 @@ const Toast: React.FC & {
          closeButton={true}
          hideProgressBar={true}
          position={toast.POSITION.BOTTOM_LEFT}
+         autoClose={false}
       />
    );
 };
