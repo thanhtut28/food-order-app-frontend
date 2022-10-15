@@ -17,7 +17,7 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ children, href, route }
                className={cn(
                   "text-xs block w-full px-4 py-3 sm:py-4 small-phones:px-2 sm:text-sm text-center sm:text-left",
                   {
-                     "text-black font-semibold bg-white rounded-lg shadow-md sm:bg-transparent sm:shadow-none":
+                     "text-black font-semibold bg-white rounded-lg drop-shadow-md sm:bg-transparent sm:shadow-none":
                         active,
                      //    "before:content-[''] before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:bg-gray-900 before:sm:hidden":
                      //       active,

@@ -13,3 +13,5 @@ export const toastClass = {
    default: "bg-indigo-600",
    dark: "bg-white-600 font-gray-300",
 };
+
+export const IS_SERVER = typeof window === undefined;

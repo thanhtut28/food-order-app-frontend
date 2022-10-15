@@ -1,3 +1,4 @@
+import CartBag from "@/modules/common/components/cart-bag";
 import Bag from "@/modules/common/icons/bag";
 import cn from "classnames";
 import Link from "next/link";
@@ -31,11 +32,8 @@ const Nav = () => {
                   </AccountNavLink>
                </li>
             </ul>
-            <div className="flex justify-center items-center relative">
-               <button>
-                  <Bag size={36} />
-               </button>
-               <span className="absolute top-4 text-xs font-semibold">4</span>
+            <div>
+               <CartBag count={5} />
             </div>
          </div>
       </div>

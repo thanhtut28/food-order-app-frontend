@@ -1,8 +1,6 @@
-import {
-   GetMenuItemsByCategoryQuery,
-   useGetMenuItemsByCategoryQuery,
-} from "@/lib/generated/graphql";
+import { useGetMenuItemsByCategoryQuery } from "@/lib/generated/graphql";
 import Title from "@/modules/common/components/title";
+import Spinner from "@/modules/common/icons/spinner";
 import MenuItem from "../menu-item";
 
 interface Props {
@@ -10,9 +8,19 @@ interface Props {
 }
 
 const MenuItems: React.FC<Props> = ({ categoryId }) => {
-   const { data } = useGetMenuItemsByCategoryQuery({ variables: { categoryId } });
+   const { data, loading } = useGetMenuItemsByCategoryQuery({
+      variables: { categoryId },
+   });
 
    const menuItems = data?.getMenuItemsByCategory;
+
+   if (loading || !data) {
+      return (
+         <div className="flex items-center justify-center w-full min-h-[640px] h-full text-gray-800">
+            <Spinner size={36} />
+         </div>
+      );
+   }
 
    return (
       <section>

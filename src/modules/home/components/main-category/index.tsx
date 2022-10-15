@@ -8,7 +8,7 @@ interface Props {
    num: number;
 }
 
-const FeaturedProduct: React.FC<Props> = ({ category, num }) => {
+const MainCategory: React.FC<Props> = ({ category, num }) => {
    const isOddNum = num % 2 !== 0;
 
    return (
@@ -63,4 +63,4 @@ const FeaturedProduct: React.FC<Props> = ({ category, num }) => {
    );
 };
 
-export default FeaturedProduct;
+export default MainCategory;
