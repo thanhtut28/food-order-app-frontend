@@ -16,10 +16,36 @@ export type Scalars = {
   DateTime: any;
 };
 
+export type AddCartItemInput = {
+  cartId: Scalars['Int'];
+  menuItemId: Scalars['Int'];
+};
+
 export type AuthenticationResponse = {
   __typename?: 'AuthenticationResponse';
   error?: Maybe<ErrorResponse>;
   user?: Maybe<User>;
+};
+
+export type Cart = {
+  __typename?: 'Cart';
+  cartItems: Array<CartItem>;
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+export type CartItem = {
+  __typename?: 'CartItem';
+  cart: MenuItem;
+  cartId: Scalars['Int'];
+  id: Scalars['Int'];
+  menuItem: MenuItem;
+  menuItemId: Scalars['Int'];
+  quantity: Scalars['Int'];
+  total: Scalars['Float'];
 };
 
 export type Category = {
@@ -67,6 +93,11 @@ export type FeaturedItemsResponse = {
   menuItem: MenuItem;
 };
 
+export type GetMenuItemsInput = {
+  categoryId?: InputMaybe<Scalars['Int']>;
+  cursor?: InputMaybe<Scalars['Int']>;
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   categories: Array<Category>;
@@ -94,12 +125,15 @@ export type MenuItem = {
 export type Mutation = {
   __typename?: 'Mutation';
   addIngredientToItem: MenuItem;
+  addToCart?: Maybe<Cart>;
   changePassword: ChangePasswordResponse;
   createCategory: Category;
   createIngredient: Ingredient;
   createMenuItem: MenuItem;
+  createNewCart?: Maybe<Cart>;
   forgotPassword: ChangePasswordResponse;
   logout: Scalars['Boolean'];
+  removeFromCart?: Maybe<Cart>;
   signIn?: Maybe<AuthenticationResponse>;
   signUp: AuthenticationResponse;
   updateEmail: Scalars['Boolean'];
@@ -111,6 +145,11 @@ export type Mutation = {
 export type MutationAddIngredientToItemArgs = {
   ingredients: Array<Scalars['String']>;
   itemId: Scalars['Int'];
+};
+
+
+export type MutationAddToCartArgs = {
+  input: AddCartItemInput;
 };
 
 
@@ -136,6 +175,11 @@ export type MutationCreateMenuItemArgs = {
 
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationRemoveFromCartArgs = {
+  input: AddCartItemInput;
 };
 
 
@@ -168,6 +212,7 @@ export type Query = {
   getAllCategories: Array<Category>;
   getAllIngredients: Array<Ingredient>;
   getAllMenuItems: Array<MenuItem>;
+  getCart?: Maybe<Cart>;
   getFeaturedItems: Array<MenuItem>;
   getMenuItemsByCategory: Array<MenuItem>;
   getMenuItemsByIngredient: Array<MenuItem>;
@@ -177,7 +222,7 @@ export type Query = {
 
 
 export type QueryGetMenuItemsByCategoryArgs = {
-  categoryId?: InputMaybe<Scalars['Int']>;
+  input: GetMenuItemsInput;
 };
 
 
@@ -266,7 +311,7 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', id: number, name: string, menuItems: Array<{ __typename?: 'MenuItem', photo: string }> }> };
 
 export type GetMenuItemsByCategoryQueryVariables = Exact<{
-  categoryId?: InputMaybe<Scalars['Int']>;
+  input: GetMenuItemsInput;
 }>;
 
 
@@ -565,8 +610,8 @@ export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategor
 export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
 export const GetMenuItemsByCategoryDocument = gql`
-    query GetMenuItemsByCategory($categoryId: Int) {
-  getMenuItemsByCategory(categoryId: $categoryId) {
+    query GetMenuItemsByCategory($input: GetMenuItemsInput!) {
+  getMenuItemsByCategory(input: $input) {
     id
     name
     photo
@@ -587,11 +632,11 @@ export const GetMenuItemsByCategoryDocument = gql`
  * @example
  * const { data, loading, error } = useGetMenuItemsByCategoryQuery({
  *   variables: {
- *      categoryId: // value for 'categoryId'
+ *      input: // value for 'input'
  *   },
  * });
  */
-export function useGetMenuItemsByCategoryQuery(baseOptions?: Apollo.QueryHookOptions<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>) {
+export function useGetMenuItemsByCategoryQuery(baseOptions: Apollo.QueryHookOptions<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>) {
         const options = {...defaultOptions, ...baseOptions}
         return Apollo.useQuery<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>(GetMenuItemsByCategoryDocument, options);
       }

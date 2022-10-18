@@ -1,5 +1,5 @@
-query GetMenuItemsByCategory($categoryId: Int) {
-   getMenuItemsByCategory(categoryId: $categoryId) {
+query GetMenuItemsByCategory($input: GetMenuItemsInput!) {
+   getMenuItemsByCategory(input: $input) {
       id
       name
       photo

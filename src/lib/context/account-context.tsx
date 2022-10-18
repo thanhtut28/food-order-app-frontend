@@ -30,7 +30,7 @@ export const AccountProvider = ({ children }: { children?: React.ReactNode }) =>
    const {
       data,
       loading: retrievingUser,
-      refetch,
+      refetch: refetchUser,
    } = useMeQuery({ fetchPolicy: "network-only", onError: () => {} });
    const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN);
 
@@ -47,8 +47,7 @@ export const AccountProvider = ({ children }: { children?: React.ReactNode }) =>
       loginView,
       retrievingUser,
       checkAuth,
-
-      refetchUser: refetch,
+      refetchUser,
    };
 
    return <AccountContext.Provider value={accountContext}>{children}</AccountContext.Provider>;

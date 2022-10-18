@@ -41,7 +41,54 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
    }
 });
 
-const cache = new InMemoryCache({});
+const cache = new InMemoryCache({
+   typePolicies: {
+      Query: {
+         fields: {
+            getMenuItemsByCategory: {
+               keyArgs: ["type"],
+
+               // While args.cursor may still be important for requesting
+               // a given page, it no longer has any role to play in the
+               // merge function.
+               merge(existing, incoming, { readField }: any) {
+                  const merged = { ...existing };
+                  incoming.forEach((item: any) => {
+                     merged[readField("id", item)] = item;
+                  });
+                  return merged;
+               },
+
+               // Return all items stored so far, to avoid ambiguities
+               // about the order of the items.
+               read(existing) {
+                  return existing && Object.values(existing);
+               },
+            },
+         },
+      },
+   },
+});
+
+// function offsetFromCursor(items: any, cursor: number, readField: any) {
+//    // Search from the back of the list because the cursor we're
+//    // looking for is typically the ID of the last item.
+//    for (let i = items.length - 1; i >= 0; --i) {
+//       const item = items[i];
+//       // Using readField works for both non-normalized objects
+//       // (returning item.id) and normalized references (returning
+//       // the id field from the referenced entity object), so it's
+//       // a good idea to use readField when you're not sure what
+//       // kind of elements you're dealing with.
+//       if (readField("id", item) === cursor) {
+//          // Add one because the cursor identifies the item just
+//          // before the first item in the page we care about.
+//          return i + 1;
+//       }
+//    }
+//    // Report that the cursor could not be found.
+//    return -1;
+// }
 
 function createApolloClient(ctx?: ResolverContext) {
    return new ApolloClient({
