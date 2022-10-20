@@ -25,8 +25,6 @@ const ProfileTemplate: React.FC = () => {
       await logout();
    };
 
-   console.log("raesr");
-
    return (
       <div className="w-full rounded-3xl max-w-lg px-4">
          <div className="mb-8">

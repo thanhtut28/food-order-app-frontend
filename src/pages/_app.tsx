@@ -5,6 +5,7 @@ import { useApollo } from "@/lib/config/apollo";
 import Toast from "@/modules/common/components/toast";
 import { AccountProvider } from "@/lib/context/account-context";
 import { AppPropsWithLayout } from "@/types/global";
+import { CartProvider } from "@/lib/context/cart-context";
 
 function MyApp({ Component, pageProps }: AppPropsWithLayout) {
    const apolloClient = useApollo((pageProps as any).initialApolloState);
@@ -12,8 +13,10 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
    return (
       <ApolloProvider client={apolloClient}>
          <AccountProvider>
-            {getLayout(<Component {...pageProps} />)}
-            <Toast />
+            <CartProvider>
+               {getLayout(<Component {...pageProps} />)}
+               <Toast />
+            </CartProvider>
          </AccountProvider>
       </ApolloProvider>
    );

@@ -39,9 +39,8 @@ export type Cart = {
 
 export type CartItem = {
   __typename?: 'CartItem';
-  cart: MenuItem;
+  cart: Cart;
   cartId: Scalars['Int'];
-  id: Scalars['Int'];
   menuItem: MenuItem;
   menuItemId: Scalars['Int'];
   quantity: Scalars['Int'];
@@ -93,6 +92,12 @@ export type FeaturedItemsResponse = {
   menuItem: MenuItem;
 };
 
+export type GetCartItemsInput = {
+  cartId: Scalars['Int'];
+  cursor_cartId?: InputMaybe<Scalars['Int']>;
+  cursor_menuItemId?: InputMaybe<Scalars['Int']>;
+};
+
 export type GetMenuItemsInput = {
   categoryId?: InputMaybe<Scalars['Int']>;
   cursor?: InputMaybe<Scalars['Int']>;
@@ -130,7 +135,7 @@ export type Mutation = {
   createCategory: Category;
   createIngredient: Ingredient;
   createMenuItem: MenuItem;
-  createNewCart?: Maybe<Cart>;
+  createNewCart: Scalars['Boolean'];
   forgotPassword: ChangePasswordResponse;
   logout: Scalars['Boolean'];
   removeFromCart?: Maybe<Cart>;
@@ -213,11 +218,17 @@ export type Query = {
   getAllIngredients: Array<Ingredient>;
   getAllMenuItems: Array<MenuItem>;
   getCart?: Maybe<Cart>;
+  getCartItems: Array<CartItem>;
   getFeaturedItems: Array<MenuItem>;
   getMenuItemsByCategory: Array<MenuItem>;
   getMenuItemsByIngredient: Array<MenuItem>;
   me?: Maybe<User>;
   users: Array<User>;
+};
+
+
+export type QueryGetCartItemsArgs = {
+  input: GetCartItemsInput;
 };
 
 
@@ -265,6 +276,11 @@ export type ChangePasswordMutationVariables = Exact<{
 
 export type ChangePasswordMutation = { __typename?: 'Mutation', changePassword: { __typename?: 'ChangePasswordResponse', success: boolean, error?: { __typename?: 'ErrorResponse', message: string, field: string } | null } };
 
+export type CreateNewCartMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CreateNewCartMutation = { __typename?: 'Mutation', createNewCart: boolean };
+
 export type ForgotPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -309,6 +325,11 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', id: number, name: string, menuItems: Array<{ __typename?: 'MenuItem', photo: string }> }> };
+
+export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number } | null };
 
 export type GetMenuItemsByCategoryQueryVariables = Exact<{
   input: GetMenuItemsInput;
@@ -360,6 +381,36 @@ export function useChangePasswordMutation(baseOptions?: Apollo.MutationHookOptio
 export type ChangePasswordMutationHookResult = ReturnType<typeof useChangePasswordMutation>;
 export type ChangePasswordMutationResult = Apollo.MutationResult<ChangePasswordMutation>;
 export type ChangePasswordMutationOptions = Apollo.BaseMutationOptions<ChangePasswordMutation, ChangePasswordMutationVariables>;
+export const CreateNewCartDocument = gql`
+    mutation CreateNewCart {
+  createNewCart
+}
+    `;
+export type CreateNewCartMutationFn = Apollo.MutationFunction<CreateNewCartMutation, CreateNewCartMutationVariables>;
+
+/**
+ * __useCreateNewCartMutation__
+ *
+ * To run a mutation, you first call `useCreateNewCartMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateNewCartMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createNewCartMutation, { data, loading, error }] = useCreateNewCartMutation({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useCreateNewCartMutation(baseOptions?: Apollo.MutationHookOptions<CreateNewCartMutation, CreateNewCartMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<CreateNewCartMutation, CreateNewCartMutationVariables>(CreateNewCartDocument, options);
+      }
+export type CreateNewCartMutationHookResult = ReturnType<typeof useCreateNewCartMutation>;
+export type CreateNewCartMutationResult = Apollo.MutationResult<CreateNewCartMutation>;
+export type CreateNewCartMutationOptions = Apollo.BaseMutationOptions<CreateNewCartMutation, CreateNewCartMutationVariables>;
 export const ForgotPasswordDocument = gql`
     mutation ForgotPassword($email: String!) {
   forgotPassword(email: $email) {
@@ -609,6 +660,40 @@ export function useGetAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategoriesQuery>;
 export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
+export const GetCartDocument = gql`
+    query GetCart {
+  getCart {
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetCartQuery__
+ *
+ * To run a query within a React component, call `useGetCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCartQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCartQuery(baseOptions?: Apollo.QueryHookOptions<GetCartQuery, GetCartQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetCartQuery, GetCartQueryVariables>(GetCartDocument, options);
+      }
+export function useGetCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCartQuery, GetCartQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetCartQuery, GetCartQueryVariables>(GetCartDocument, options);
+        }
+export type GetCartQueryHookResult = ReturnType<typeof useGetCartQuery>;
+export type GetCartLazyQueryHookResult = ReturnType<typeof useGetCartLazyQuery>;
+export type GetCartQueryResult = Apollo.QueryResult<GetCartQuery, GetCartQueryVariables>;
 export const GetMenuItemsByCategoryDocument = gql`
     query GetMenuItemsByCategory($input: GetMenuItemsInput!) {
   getMenuItemsByCategory(input: $input) {

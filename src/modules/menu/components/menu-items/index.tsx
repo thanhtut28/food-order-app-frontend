@@ -19,9 +19,15 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
 
    const menuItems = data?.getMenuItemsByCategory;
 
+   // to reset hasMore after changing category
+   useEffect(() => {
+      setHasMore(true);
+   }, [categoryId]);
+
    useEffect(() => {
       const timeout = setTimeout(() => {
          if (entry?.isIntersecting && inView && hasMore) {
+            console.log("fetchmore");
             fetchMore({
                variables: { input: { categoryId, cursor: menuItems?.[menuItems?.length - 1].id } },
             }).then(fetchMoreRes =>
