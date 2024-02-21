@@ -1,6 +1,6 @@
 import { SuccessMessage } from "@/lib/constants/message";
 import { useAccount } from "@/lib/context/account-context";
-import { useLogoutMutation } from "@/lib/generated/graphql";
+import { GetCartDocument, MeDocument, useLogoutMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import cn from "classnames";
 import { toast } from "react-toastify";
@@ -9,11 +9,9 @@ import ProfileUsername from "../components/profile-username";
 
 const ProfileTemplate: React.FC = () => {
    const [logout, { loading: loggingOut }] = useLogoutMutation({
+      refetchQueries: [GetCartDocument, MeDocument],
       onError: () => {},
-      onCompleted: async () => {
-         await ctx.refetchUser();
-         toast.success(SuccessMessage.LOG_OUT_SUCCESS);
-      },
+      onCompleted: () => toast.success(SuccessMessage.LOG_OUT_SUCCESS),
    });
    const ctx = useAccount();
 

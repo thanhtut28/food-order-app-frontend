@@ -1,7 +1,7 @@
 import { Field } from "@/lib/constants/global";
 import { FormErrorMessage, SuccessMessage } from "@/lib/constants/message";
 import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
-import { useSignUpMutation } from "@/lib/generated/graphql";
+import { GetCartDocument, MeDocument, useSignUpMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import { useForm, FieldValues } from "react-hook-form";
@@ -15,7 +15,7 @@ interface RegisterCredentials extends FieldValues {
 }
 
 const Register = () => {
-   const { loginView, refetchUser } = useAccount();
+   const { loginView } = useAccount();
    const [_, setCurrentView] = loginView;
    const {
       register,
@@ -24,6 +24,7 @@ const Register = () => {
       setError,
    } = useForm<RegisterCredentials>();
    const [signUp, { loading: signingUp }] = useSignUpMutation({
+      refetchQueries: [GetCartDocument, MeDocument],
       onCompleted: async data => {
          if (data?.signUp?.error?.field === Field.EMAIL) {
             setError(Field.EMAIL, { message: data.signUp.error.message });
@@ -36,7 +37,6 @@ const Register = () => {
             return;
          }
 
-         await refetchUser();
          toast.success(SuccessMessage.SIGN_UP_SUCCESS);
       },
       onError: () => {},

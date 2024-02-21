@@ -1,11 +1,12 @@
+import { useCart } from "@/lib/context/cart-context";
 import CartBag from "@/modules/common/components/cart-bag";
-import Bag from "@/modules/common/icons/bag";
 import cn from "classnames";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 const Nav = () => {
    const { route } = useRouter();
+   const { cartItemsQty } = useCart();
 
    return (
       <div className="fixed top-0 left-0 w-full bg-white backdrop-blur-xl shadow-sm flex origin-top-left z-50">
@@ -33,7 +34,7 @@ const Nav = () => {
                </li>
             </ul>
             <div>
-               <CartBag count={5} />
+               <CartBag count={cartItemsQty} />
             </div>
          </div>
       </div>

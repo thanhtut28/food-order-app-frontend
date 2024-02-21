@@ -1,7 +1,7 @@
 import { Field } from "@/lib/constants/global";
 import { FormErrorMessage, SuccessMessage } from "@/lib/constants/message";
 import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
-import { useSignInMutation } from "@/lib/generated/graphql";
+import { GetCartDocument, MeDocument, useSignInMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import Link from "next/link";
@@ -15,7 +15,7 @@ interface LoginCredentials extends FieldValues {
 }
 
 const Login = () => {
-   const { loginView, refetchUser } = useAccount();
+   const { loginView } = useAccount();
    const [_, setCurrentView] = loginView;
    const {
       register,
@@ -24,6 +24,13 @@ const Login = () => {
       setError,
    } = useForm<LoginCredentials>();
    const [signIn, { loading: signingIn }] = useSignInMutation({
+      // To fetch cart after logging in
+      // If not, the cart data is null and will create the cart again which is already existed
+
+      //! use refetchQueries for MeQuery instead of refetch for state batch-changes
+      // to fix unexpected behaviour like cart data changes and me data is null
+      // that bug can make accidently created a new cart because of the condition provided in the cart-context's useEffect
+      refetchQueries: [GetCartDocument, MeDocument],
       onCompleted: async data => {
          if (data?.signIn?.error?.field === Field.EMAIL) {
             setError(Field.EMAIL, { message: data.signIn.error.message });
@@ -33,7 +40,7 @@ const Login = () => {
             return;
          }
 
-         await refetchUser().catch(() => {});
+         // await refetchUser().catch(() => {});
          toast.success(SuccessMessage.SIGN_IN_SUCCESS);
       },
       onError: () => {},

@@ -11,7 +11,7 @@ const OverviewTemplate: React.FC = () => {
    const [logout, { loading: loggingOut }] = useLogoutMutation({
       onError: () => {},
       onCompleted: async () => {
-         await ctx.refetchUser();
+         // await ctx.refetchUser();
          toast.success(SuccessMessage.LOG_OUT_SUCCESS);
       },
    });

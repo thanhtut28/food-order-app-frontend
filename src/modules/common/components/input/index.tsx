@@ -19,11 +19,18 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       const [inputType, setInputType] = useState(type);
 
       useEffect(() => {
-         if (type === "password" && showPassword) {
-            setInputType("text");
-         }
-         if (type === "password" && !showPassword) {
-            setInputType("password");
+         // if (type === "password" && showPassword) {
+         //    setInputType("text");
+         // }
+         // if (type === "password" && !showPassword) {
+         //    setInputType("password");
+         // }
+         if (type === "password") {
+            if (showPassword) {
+               setInputType("text");
+            } else {
+               setInputType("password");
+            }
          }
       }, [showPassword, type]);
 

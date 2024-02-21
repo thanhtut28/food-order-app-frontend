@@ -1,4 +1,11 @@
-import { GetAllCategoriesQuery, GetMenuItemsByCategoryQuery } from "@/lib/generated/graphql";
+import { useCart } from "@/lib/context/cart-context";
+import {
+   GetAllCategoriesQuery,
+   GetCartDocument,
+   GetCartItemsDocument,
+   GetMenuItemsByCategoryQuery,
+   useAddToCartMutation,
+} from "@/lib/generated/graphql";
 import Plus from "@/modules/common/icons/plus";
 import cn from "classnames";
 import Image from "next/image";
@@ -9,6 +16,16 @@ interface Props {
 }
 
 const MenuItem: React.FC<Props> = ({ item }) => {
+   const { cartId } = useCart();
+
+   const [addToCart, { data, loading, error }] = useAddToCartMutation({
+      // last recent code
+      variables: { input: { cartId: cartId!, menuItemId: item.id } },
+      refetchQueries: [GetCartDocument, GetCartItemsDocument],
+   });
+
+   console.log("added", data?.addToCart);
+
    return (
       <div className="bg-gradient-to-br rounded-lg from-neutral-100 to-neutral-50 drop-shadow-lg group p-4 flex flex-col justify-between w-full">
          <div
@@ -34,10 +51,7 @@ const MenuItem: React.FC<Props> = ({ item }) => {
          </h6>
          <div className="flex justify-between items-center py-2">
             <p className="text-sm text-gray-800">${item.price}</p>
-            <button
-               className="text-gray-700 pb-1 z-50 relative"
-               onClick={() => console.log("plus")}
-            >
+            <button className="text-gray-700 pb-1 z-50 relative" onClick={() => addToCart()}>
                <Plus size={26} />
             </button>
          </div>
