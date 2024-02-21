@@ -1,12 +1,12 @@
-import { useCart } from "@/lib/context/cart-context";
+import { useCart } from "../../../../lib/context/cart-context";
 import {
    GetAllCategoriesQuery,
    GetCartDocument,
    GetCartItemsDocument,
    GetMenuItemsByCategoryQuery,
    useAddToCartMutation,
-} from "@/lib/generated/graphql";
-import Plus from "@/modules/common/icons/plus";
+} from "../../../../lib/generated/graphql";
+import Plus from "../../../common/icons/plus";
 import cn from "classnames";
 import Image from "next/image";
 import React from "react";

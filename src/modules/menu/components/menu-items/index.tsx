@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useGetMenuItemsByCategoryQuery } from "@/lib/generated/graphql";
+import { useGetMenuItemsByCategoryQuery } from "../../../../lib/generated/graphql";
 import { useInView } from "react-intersection-observer";
-import Title from "@/modules/common/components/title";
-import Spinner from "@/modules/common/icons/spinner";
+import Title from "../../../common/components/title";
+import Spinner from "../../../common/icons/spinner";
 import MenuItem from "../menu-item";
 interface Props {
    categoryId: number | null;

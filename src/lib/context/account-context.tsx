@@ -34,13 +34,13 @@ export const AccountProvider = ({ children }: { children?: React.ReactNode }) =>
    } = useMeQuery({ fetchPolicy: "network-only", onError: () => {} });
    const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN);
 
-   const { replace } = useRouter();
+   const router = useRouter();
 
    const checkAuth = useCallback(() => {
       if (!data?.me && !retrievingUser) {
-         replace(`/account/login`);
+         router.replace(`/account/login`);
       }
-   }, [data?.me, replace, retrievingUser]);
+   }, [data?.me, router, retrievingUser]);
 
    const accountContext = {
       me: data?.me,
