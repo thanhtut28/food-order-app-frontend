@@ -1,6 +1,6 @@
 import { GetAllCategoriesQuery } from "@/lib/generated/graphql";
 import Title from "@/modules/common/components/title";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Category from "../category";

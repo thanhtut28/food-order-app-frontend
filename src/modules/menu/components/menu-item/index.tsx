@@ -9,7 +9,7 @@ import {
 } from "../../../../lib/generated/graphql";
 import Plus from "../../../common/icons/plus";
 import cn from "classnames";
-import Image from "next/image";
+import Image from "next/legacy/image";
 import React from "react";
 
 interface Props {
