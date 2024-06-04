@@ -9,7 +9,7 @@ const AuthFormWrapper: React.FC<Props> = ({ subtitle, children }) => {
    return (
       <div className="w-full max-w-md mx-auto flex justify-center px-4">
          <div className="max-w-md w-full ">
-            <Link href="/">
+            <Link href="/" legacyBehavior>
                <h1 className="text-2xl text-primary-600 font-bold capitalize mb-6 cursor-pointer">
                   Food Delivery App
                </h1>

@@ -13,7 +13,9 @@ const MainCategory: React.FC<Props> = ({ category, num }) => {
 
    return (
       <div className="flex-1 cursor-pointer">
-         <Link href={{ pathname: `/menu`, query: { category: category.id } }}>
+         <Link
+            href={{ pathname: `/menu`, query: { category: category.id } }}
+            legacyBehavior>
             <div
                className={cn({
                   "md:translate-y-20": isOddNum,

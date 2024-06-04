@@ -75,8 +75,8 @@ const ChangePassword = () => {
             <div className="mt-4">
                <span className="text-gray-500">
                   Retry again?
-                  <Link href="/account/forgot-password">
-                     <a className="underline">Click here</a>
+                  <Link href="/account/forgot-password" className="underline">
+                     Click here
                   </Link>
                </span>
             </div>

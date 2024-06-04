@@ -88,8 +88,8 @@ const Login = () => {
             </span>
 
             <span className="text-gray-500 text-xs">
-               <Link href="/account/forgot-password">
-                  <a className="underline">Forgot Password?</a>
+               <Link href="/account/forgot-password" className="underline">
+                  Forgot Password?
                </Link>
             </span>
          </div>

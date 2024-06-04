@@ -53,19 +53,19 @@ const AccountNavLink: React.FC<AccountNavLinkProps> = ({ href, route, children }
    const active = href === route;
 
    return (
-      <Link href={href}>
-         <a
-            className={cn(
-               "text-sm block font-semibold w-full p-6 px-4 text-gray-900 relative",
-               "small-phones:text-xs small-phones:px-3 uppercase",
-               {
-                  "before:content-[''] before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:bg-primary-700":
-                     active,
-               }
-            )}
-         >
-            {children}
-         </a>
-      </Link>
+      (<Link
+         href={href}
+         className={cn(
+            "text-sm block font-semibold w-full p-6 px-4 text-gray-900 relative",
+            "small-phones:text-xs small-phones:px-3 uppercase",
+            {
+               "before:content-[''] before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:bg-primary-700":
+                  active,
+            }
+         )}>
+
+         {children}
+
+      </Link>)
    );
 };
