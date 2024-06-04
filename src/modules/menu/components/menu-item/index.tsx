@@ -1,3 +1,4 @@
+import ArrowRight from "@/modules/common/icons/arrow-right";
 import { useCart } from "../../../../lib/context/cart-context";
 import {
    GetAllCategoriesQuery,
@@ -27,11 +28,11 @@ const MenuItem: React.FC<Props> = ({ item }) => {
    console.log("added", data?.addToCart);
 
    return (
-      <div className="bg-gradient-to-br rounded-lg from-neutral-100 to-neutral-50 drop-shadow-lg group p-4 flex flex-col justify-between w-full">
-         <div
-            className="w-full transition-all cursor-pointer group-hover:scale-110 py-2"
-            onClick={() => console.log("card")}
-         >
+      <div
+         className="bg-gradient-to-br rounded-xl bg-white shadow-sm group px-4 pt-10 pb-4 my-16 md:my-12 flex flex-col justify-between w-full max-w-xs mx-auto cursor-pointer"
+         onClick={() => console.log("card")}
+      >
+         <div className="w-full transition-all group-hover:scale-110 pb-2 -mt-[50%]">
             <Image
                width={3}
                height={2}
@@ -49,11 +50,11 @@ const MenuItem: React.FC<Props> = ({ item }) => {
          >
             {item.name}
          </h6>
-         <div className="flex justify-between items-center py-2">
+         <div className="py-4 flex justify-between items-center">
             <p className="text-sm text-gray-800">${item.price}</p>
-            <button className="text-gray-700 pb-1 z-50 relative" onClick={() => addToCart()}>
-               <Plus size={26} />
-            </button>
+            <span className="inline text-gray-800 text-xs font-semibold capitalize p-1.5 bg-primary-200 rounded-lg">
+               {item.category.name}
+            </span>
          </div>
       </div>
    );

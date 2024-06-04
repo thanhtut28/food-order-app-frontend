@@ -1,0 +1,5 @@
+query GetAllMenuItems {
+   getAllMenuItems {
+      id
+   }
+}

@@ -4,5 +4,8 @@ query GetMenuItemsByCategory($input: GetMenuItemsInput!) {
       name
       photo
       price
+      category {
+         name
+      }
    }
 }

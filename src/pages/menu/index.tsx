@@ -1,7 +1,7 @@
 import { initializeApollo } from "@/lib/config/apollo";
 import { GetAllCategoriesDocument, GetAllCategoriesQuery } from "@/lib/generated/graphql";
 import Layout from "@/modules/layout/templates";
-import MenuTemplate from "@/modules/menu/templates/menu-templates";
+import MenuTemplate from "@/modules/menu/templates/menu-template";
 import { NextPageWithLayout } from "@/types/global";
 import { GetStaticProps } from "next";
 

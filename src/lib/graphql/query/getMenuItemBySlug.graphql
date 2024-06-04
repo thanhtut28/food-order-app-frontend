@@ -1,0 +1,18 @@
+query GetMenuItemBySlug($slug: Int!) {
+   getMenuItemBySlug(slug: $slug) {
+      id
+      name
+      photo
+      price
+      category {
+         name
+      }
+      ingredientItems {
+         id
+         order
+         ingredient {
+            name
+         }
+      }
+   }
+}

@@ -13,7 +13,7 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
       threshold: 0,
    });
    const [hasMore, setHasMore] = useState<boolean>(true);
-   const { data, loading, fetchMore } = useGetMenuItemsByCategoryQuery({
+   const { data, loading, fetchMore, error } = useGetMenuItemsByCategoryQuery({
       variables: { input: { categoryId } },
    });
 
@@ -40,10 +40,16 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
       // implemented fetchMore with setTimeout
       // to prevent double queries at one intersection.
    }, [categoryId, entry?.isIntersecting, fetchMore, hasMore, inView, loading, menuItems]);
+   if (error) {
+      return <h6>Error</h6>;
+   }
 
-   if (loading || !data) {
+   if (loading) {
       return (
-         <div className="flex items-center justify-center w-full min-h-[640px] h-full text-gray-800">
+         <div
+            className="flex items-center justify-center w-full min-h-[640px] h-full text-gray-800"
+            data-testid="loading-container"
+         >
             <Spinner size={36} />
          </div>
       );
@@ -54,7 +60,7 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
          <Title>Menu Items</Title>
          {menuItems && menuItems.length > 0 ? (
             <>
-               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 gap-y-8">
+               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 gap-y-8 pt-6">
                   {menuItems.map(item => (
                      <MenuItem item={item} key={item.id} />
                   ))}

@@ -16,53 +16,40 @@ interface CartContextInterface {
 const CartContext = createContext<CartContextInterface | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-   const [creatingCart, setCreatingCart] = useState(false);
-   const [hasFetched, setHasFetched] = useState(false);
-
    const [createNewCart] = useCreateNewCartMutation({
       refetchQueries: [GetCartDocument],
-      onError: () => {},
+      onError: error => {
+         console.error("Error creating cart:", error);
+      },
    });
+
    const { me } = useAccount();
-   const { data: cartData } = useGetCartQuery({
+   const { data: cartData, loading: fetchingCart } = useGetCartQuery({
       fetchPolicy: "network-only",
    });
 
-   const [getCartItems, { data: cartItemsData, loading: fetchingCartItems }] =
-      useGetCartItemsLazyQuery();
-
-   console.log(creatingCart, me, hasFetched, cartData?.getCart?.id);
-
    useEffect(() => {
-      if (cartData?.getCart?.id) {
-         getCartItems({ variables: { input: { cartId: cartData.getCart.id } } });
-      }
-   }, [cartData?.getCart?.id, getCartItems]);
-
-   useEffect(() => {
-      // still needs to fix this component
-      if (cartData && !fetchingCartItems) {
-         setHasFetched(true); // Update state when cart data is fetched
-         if (!cartData.getCart) {
-            setCreatingCart(true); // Set creatingCart to true if no cart data is found
-         }
-      }
-   }, [cartData, fetchingCartItems]);
-
-   useEffect(() => {
+      //! still needs to fix for later
+      // the cartQuery is fetched after meQuery which makes tempoarily null
+      // so the null value trigger the create cart function which is already created.
       const ensureCart = async () => {
-         await createNewCart();
+         if (!cartData?.getCart?.id && !fetchingCart && me) {
+            try {
+               await createNewCart();
+               console.log("Cart created successfully.");
+            } catch (error) {
+               console.error("Failed to create cart:", error);
+            }
+         }
       };
 
-      // Ensure that cart creation is triggered only when necessary conditions are met
-      if (!IS_SERVER && !creatingCart && me && hasFetched && !cartData?.getCart?.id) {
-         console.log("cart created");
+      if (!IS_SERVER && me) {
          ensureCart();
       }
-   }, [createNewCart, creatingCart, me, hasFetched, cartData]);
+   }, [createNewCart, fetchingCart, me, cartData]);
 
    const cartContext = {
-      cartItemsQty: cartItemsData?.getCartItems?.length || 0,
+      cartItemsQty: cartData?.getCart?.cartItemsCount || 0,
       cartId: cartData?.getCart?.id,
    };
 

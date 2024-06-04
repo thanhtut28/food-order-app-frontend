@@ -30,6 +30,7 @@ export type AuthenticationResponse = {
 export type Cart = {
   __typename?: 'Cart';
   cartItems: Array<CartItem>;
+  cartItemsCount: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
   updatedAt: Scalars['DateTime'];
@@ -51,7 +52,6 @@ export type Category = {
   __typename?: 'Category';
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
-  ingredients: Array<Ingredient>;
   menuItems: Array<MenuItem>;
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
@@ -68,13 +68,8 @@ export type ChangePasswordResponse = {
   success: Scalars['Boolean'];
 };
 
-export type CreateIngredientInput = {
-  categories: Array<Scalars['String']>;
-  name: Scalars['String'];
-};
-
 export type CreateMenuItemInput = {
-  categoryId?: InputMaybe<Scalars['Int']>;
+  categoryId: Scalars['Int'];
   name: Scalars['String'];
   photo: Scalars['String'];
   price: Scalars['Float'];
@@ -104,22 +99,30 @@ export type GetMenuItemsInput = {
 
 export type Ingredient = {
   __typename?: 'Ingredient';
-  categories: Array<Category>;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
-  menuItems: Array<MenuItem>;
+  ingredientItems: Array<IngreidentItem>;
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
+export type IngreidentItem = {
+  __typename?: 'IngreidentItem';
+  id: Scalars['Int'];
+  ingredient: Ingredient;
+  ingredientId: Scalars['Int'];
+  menuItem: MenuItem;
+  menuItemId: Scalars['Int'];
+  order: Scalars['Int'];
+};
+
 export type MenuItem = {
   __typename?: 'MenuItem';
-  categortId?: Maybe<Scalars['Int']>;
-  category?: Maybe<Category>;
+  categortId: Scalars['Int'];
+  category: Category;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
-  ingredients: Array<Ingredient>;
-  ingredientsCount: Scalars['Int'];
+  ingredientItems: Array<IngreidentItem>;
   name: Scalars['String'];
   photo: Scalars['String'];
   price: Scalars['Float'];
@@ -128,7 +131,6 @@ export type MenuItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addIngredientToItem: MenuItem;
   addToCart?: Maybe<Scalars['Boolean']>;
   changePassword: ChangePasswordResponse;
   createCategory: Category;
@@ -143,12 +145,6 @@ export type Mutation = {
   updateEmail: Scalars['Boolean'];
   updateMenuItem: MenuItem;
   updateUsername: Scalars['Boolean'];
-};
-
-
-export type MutationAddIngredientToItemArgs = {
-  ingredients: Array<Scalars['String']>;
-  itemId: Scalars['Int'];
 };
 
 
@@ -168,7 +164,7 @@ export type MutationCreateCategoryArgs = {
 
 
 export type MutationCreateIngredientArgs = {
-  input: CreateIngredientInput;
+  name: Scalars['String'];
 };
 
 
@@ -219,8 +215,8 @@ export type Query = {
   getCart?: Maybe<Cart>;
   getCartItems: Array<CartItem>;
   getFeaturedItems: Array<MenuItem>;
+  getMenuItemBySlug?: Maybe<MenuItem>;
   getMenuItemsByCategory: Array<MenuItem>;
-  getMenuItemsByIngredient: Array<MenuItem>;
   me?: Maybe<User>;
   users: Array<User>;
 };
@@ -231,13 +227,13 @@ export type QueryGetCartItemsArgs = {
 };
 
 
-export type QueryGetMenuItemsByCategoryArgs = {
-  input: GetMenuItemsInput;
+export type QueryGetMenuItemBySlugArgs = {
+  slug: Scalars['Int'];
 };
 
 
-export type QueryGetMenuItemsByIngredientArgs = {
-  ingredientId: Scalars['Int'];
+export type QueryGetMenuItemsByCategoryArgs = {
+  input: GetMenuItemsInput;
 };
 
 export type SignInUserInput = {
@@ -333,10 +329,15 @@ export type GetAllCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetAllCategoriesQuery = { __typename?: 'Query', getAllCategories: Array<{ __typename?: 'Category', id: number, name: string, menuItems: Array<{ __typename?: 'MenuItem', photo: string }> }> };
 
+export type GetAllMenuItemsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetAllMenuItemsQuery = { __typename?: 'Query', getAllMenuItems: Array<{ __typename?: 'MenuItem', id: number }> };
+
 export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number } | null };
+export type GetCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number, cartItemsCount: number } | null };
 
 export type GetCartItemsQueryVariables = Exact<{
   input: GetCartItemsInput;
@@ -350,7 +351,14 @@ export type GetMenuItemsByCategoryQueryVariables = Exact<{
 }>;
 
 
-export type GetMenuItemsByCategoryQuery = { __typename?: 'Query', getMenuItemsByCategory: Array<{ __typename?: 'MenuItem', id: number, name: string, photo: string, price: number }> };
+export type GetMenuItemsByCategoryQuery = { __typename?: 'Query', getMenuItemsByCategory: Array<{ __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category: { __typename?: 'Category', name: string } }> };
+
+export type GetMenuItemBySlugQueryVariables = Exact<{
+  slug: Scalars['Int'];
+}>;
+
+
+export type GetMenuItemBySlugQuery = { __typename?: 'Query', getMenuItemBySlug?: { __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category: { __typename?: 'Category', name: string }, ingredientItems: Array<{ __typename?: 'IngreidentItem', id: number, order: number, ingredient: { __typename?: 'Ingredient', name: string } }> } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -705,10 +713,45 @@ export function useGetAllCategoriesLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type GetAllCategoriesQueryHookResult = ReturnType<typeof useGetAllCategoriesQuery>;
 export type GetAllCategoriesLazyQueryHookResult = ReturnType<typeof useGetAllCategoriesLazyQuery>;
 export type GetAllCategoriesQueryResult = Apollo.QueryResult<GetAllCategoriesQuery, GetAllCategoriesQueryVariables>;
+export const GetAllMenuItemsDocument = gql`
+    query GetAllMenuItems {
+  getAllMenuItems {
+    id
+  }
+}
+    `;
+
+/**
+ * __useGetAllMenuItemsQuery__
+ *
+ * To run a query within a React component, call `useGetAllMenuItemsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetAllMenuItemsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetAllMenuItemsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetAllMenuItemsQuery(baseOptions?: Apollo.QueryHookOptions<GetAllMenuItemsQuery, GetAllMenuItemsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetAllMenuItemsQuery, GetAllMenuItemsQueryVariables>(GetAllMenuItemsDocument, options);
+      }
+export function useGetAllMenuItemsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetAllMenuItemsQuery, GetAllMenuItemsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetAllMenuItemsQuery, GetAllMenuItemsQueryVariables>(GetAllMenuItemsDocument, options);
+        }
+export type GetAllMenuItemsQueryHookResult = ReturnType<typeof useGetAllMenuItemsQuery>;
+export type GetAllMenuItemsLazyQueryHookResult = ReturnType<typeof useGetAllMenuItemsLazyQuery>;
+export type GetAllMenuItemsQueryResult = Apollo.QueryResult<GetAllMenuItemsQuery, GetAllMenuItemsQueryVariables>;
 export const GetCartDocument = gql`
     query GetCart {
   getCart {
     id
+    cartItemsCount
   }
 }
     `;
@@ -784,6 +827,9 @@ export const GetMenuItemsByCategoryDocument = gql`
     name
     photo
     price
+    category {
+      name
+    }
   }
 }
     `;
@@ -815,6 +861,54 @@ export function useGetMenuItemsByCategoryLazyQuery(baseOptions?: Apollo.LazyQuer
 export type GetMenuItemsByCategoryQueryHookResult = ReturnType<typeof useGetMenuItemsByCategoryQuery>;
 export type GetMenuItemsByCategoryLazyQueryHookResult = ReturnType<typeof useGetMenuItemsByCategoryLazyQuery>;
 export type GetMenuItemsByCategoryQueryResult = Apollo.QueryResult<GetMenuItemsByCategoryQuery, GetMenuItemsByCategoryQueryVariables>;
+export const GetMenuItemBySlugDocument = gql`
+    query GetMenuItemBySlug($slug: Int!) {
+  getMenuItemBySlug(slug: $slug) {
+    id
+    name
+    photo
+    price
+    category {
+      name
+    }
+    ingredientItems {
+      id
+      order
+      ingredient {
+        name
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useGetMenuItemBySlugQuery__
+ *
+ * To run a query within a React component, call `useGetMenuItemBySlugQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMenuItemBySlugQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMenuItemBySlugQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGetMenuItemBySlugQuery(baseOptions: Apollo.QueryHookOptions<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>(GetMenuItemBySlugDocument, options);
+      }
+export function useGetMenuItemBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>(GetMenuItemBySlugDocument, options);
+        }
+export type GetMenuItemBySlugQueryHookResult = ReturnType<typeof useGetMenuItemBySlugQuery>;
+export type GetMenuItemBySlugLazyQueryHookResult = ReturnType<typeof useGetMenuItemBySlugLazyQuery>;
+export type GetMenuItemBySlugQueryResult = Apollo.QueryResult<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
