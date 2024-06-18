@@ -1,5 +1,5 @@
 import { GetAllCategoriesQuery } from "@/lib/generated/graphql";
-import cn from "classnames";
+import cn from "@/lib/utils/classname";
 import Image from "next/legacy/image";
 import React from "react";
 
@@ -20,36 +20,36 @@ const Category: React.FC<Props> = ({ category, active, setActiveTag }) => {
 
    return (
       <div
-         className="flex flex-col items-center gap-3 cursor-pointer group"
+         className="group flex cursor-pointer flex-col items-center gap-3"
          onClick={handleSelectTag}
       >
          <div
             className={cn(
-               "bg-gradient-to-br rounded-lg relative",
-               "w-full h-44",
-               "small-phones:h-52",
+               "relative rounded-lg bg-gradient-to-br p-0",
+               "h-44 w-full",
+               "small-phones:h-20 small-phones:p-20",
                "sm:h-32",
                "md:h-36",
                "lg:h-40",
                {
-                  "from-primary-200 to-primary-100": active,
-                  "from-neutral-200 to-neutral-100": !active,
-               }
+                  "from-primary-300 to-primary-100": active,
+                  "from-neutral-300 to-neutral-100": !active,
+               },
             )}
          >
-            <div className="absolute bottom-0 -right-7 w-full small-phones:w-3/4 transition-all group-hover:scale-110">
+            <div className="absolute bottom-0 -right-7 w-full transition-all group-hover:scale-110">
                <Image
                   width={3}
                   height={2}
                   layout="responsive"
                   alt={`Cover Image for ${category.name}`}
-                  className="shadow-sm object-cover"
+                  className="object-cover shadow-sm"
                   src={category.menuItems?.[0].photo}
                   quality={25}
                />
             </div>
          </div>
-         <h6 className="text-sm font-semibold text-gray-900 capitalize sm:text-base small-phones:text-base">
+         <h6 className="text-sm font-semibold capitalize text-gray-900 sm:text-base small-phones:text-base">
             {category.name}
          </h6>
       </div>

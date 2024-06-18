@@ -1,28 +1,27 @@
 import ChevronDown from "@/modules/common/icons/chevron-down";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import AccountNavLink from "../account-navlink";
 
 const AccountNav = () => {
-   const router = useRouter();
-   const { route } = router;
+   const pathname = usePathname();
 
    return (
       <>
          <div className="rounded-xl">
-            <ul className="flex gap-4 small-phones:gap-2 sm:gap-0 flex-row justify-between px-1 py-3 sm:py-0 sm:flex-col sm:px-4 bg-neutral-100 rounded-lg sm:bg-transparent">
-               <AccountNavLink href="/account" route={route}>
+            <ul className="flex flex-row justify-between gap-4 rounded-lg bg-neutral-100 px-1 py-3 sm:flex-col sm:gap-0 sm:bg-transparent sm:py-0 sm:px-4 small-phones:gap-2">
+               <AccountNavLink href="/account" route={pathname}>
                   Overview
                </AccountNavLink>
 
-               <AccountNavLink href="/account/profile" route={route}>
+               <AccountNavLink href="/account/profile" route={pathname}>
                   Profile
                </AccountNavLink>
 
-               <AccountNavLink href="/account/orders" route={route}>
+               <AccountNavLink href="/account/orders" route={pathname}>
                   Orders
                </AccountNavLink>
 
-               <AccountNavLink href="/account/analytics" route={route}>
+               <AccountNavLink href="/account/analytics" route={pathname}>
                   Analytics
                </AccountNavLink>
             </ul>

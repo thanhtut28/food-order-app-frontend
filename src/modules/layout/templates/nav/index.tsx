@@ -1,36 +1,36 @@
 import { useCart } from "@/lib/context/cart-context";
+import cn from "@/lib/utils/classname";
 import CartBag from "@/modules/common/components/cart-bag";
-import cn from "classnames";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 const Nav = () => {
-   const { route } = useRouter();
+   const pathname = usePathname();
    const { cartItemsQty } = useCart();
 
    return (
-      <div className="fixed top-0 left-0 w-full bg-white backdrop-blur-xl shadow-sm flex origin-top-left z-50">
-         <div className="max-w-screen-2xl mx-auto flex w-full px-4 justify-between items-center">
-            <ul className="flex gap-x-3">
+      <div className="fixed top-0 left-0 z-50 flex w-full origin-top-left bg-white shadow-sm backdrop-blur-xl">
+         <div className="mx-auto flex w-full max-w-screen-2xl items-center justify-between px-4">
+            <ul className="flex gap-x-6">
                <li>
-                  <AccountNavLink href="/" route={route}>
+                  <NavLink href="/" route={pathname}>
                      Home
-                  </AccountNavLink>
+                  </NavLink>
                </li>
                <li>
-                  <AccountNavLink href="/menu" route={route}>
+                  <NavLink href="/menu" route={pathname}>
                      Menu
-                  </AccountNavLink>
+                  </NavLink>
                </li>
                <li>
-                  <AccountNavLink href="/orders" route={route}>
+                  <NavLink href="/orders" route={pathname}>
                      Orders
-                  </AccountNavLink>
+                  </NavLink>
                </li>
                <li>
-                  <AccountNavLink href="/account/profile" route={route}>
+                  <NavLink href="/account/profile" route={pathname}>
                      Account
-                  </AccountNavLink>
+                  </NavLink>
                </li>
             </ul>
             <div>
@@ -49,23 +49,22 @@ interface AccountNavLinkProps {
    children: React.ReactNode;
 }
 
-const AccountNavLink: React.FC<AccountNavLinkProps> = ({ href, route, children }) => {
+const NavLink: React.FC<AccountNavLinkProps> = ({ href, route, children }) => {
    const active = href === route;
 
    return (
-      (<Link
+      <Link
          href={href}
          className={cn(
-            "text-sm block font-semibold w-full p-6 px-4 text-gray-900 relative",
-            "small-phones:text-xs small-phones:px-3 uppercase",
+            "relative block w-full py-6 font-bold tracking-wide text-gray-900 md:py-10",
+            "uppercase small-phones:px-3 small-phones:text-xs",
             {
-               "before:content-[''] before:absolute before:bottom-0 before:left-0 before:h-1 before:w-full before:bg-primary-700":
+               "before:absolute before:bottom-0 before:left-0 before:h-1.5 before:w-full before:bg-primary-700 before:content-['']":
                   active,
-            }
-         )}>
-
+            },
+         )}
+      >
          {children}
-
-      </Link>)
+      </Link>
    );
 };

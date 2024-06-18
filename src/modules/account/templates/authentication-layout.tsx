@@ -1,4 +1,4 @@
-import cn from "classnames";
+import cn from "@/lib/utils/classname";
 
 interface Props {
    children: React.ReactNode;
@@ -7,14 +7,14 @@ interface Props {
 const AuthenticationLayout: React.FC<Props> = ({ children }) => {
    return (
       <div className="relative flex justify-center md:px-12 lg:px-0">
-         <div className={cn("max-w-xl w-full z-10 bg-white min-h-screen flex items-center px-2")}>
+         <div className={cn("z-10 flex min-h-screen w-full max-w-xl items-center bg-white px-2")}>
             {children}
          </div>
          <div
             className={cn(
-               "hidden flex-1 col-span-5 w-full min-h-screen bg-gradient-to-r from-primary-100 to-primary-50",
-               "sm:block sm:absolute sm:top-0 sm:left-0",
-               "lg:relative lg:block"
+               "col-span-5 hidden min-h-screen w-full flex-1 bg-gradient-to-r from-primary-100 to-primary-50",
+               "sm:absolute sm:top-0 sm:left-0 sm:block",
+               "lg:relative lg:block",
             )}
          />
       </div>

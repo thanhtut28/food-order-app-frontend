@@ -1,6 +1,6 @@
-import cn from "classnames";
 import React from "react";
 import Spinner from "../../icons/spinner";
+import cn from "@/lib/utils/classname";
 
 type ButtonProps = {
    isLoading?: boolean;
@@ -19,19 +19,18 @@ const Button = ({
          {...props}
          disabled={isLoading}
          className={cn(
-            "w-full uppercase flex items-center justify-center text-sm font-semibold transition-colors duration-200 disabled:opacity-50 rounded-full disabled:bg-gray-900 disabled:hover:bg-gray-700 disabled:hover:text-white",
+            "flex w-full items-center justify-center rounded-full px-5 py-3 text-sm font-semibold uppercase text-white transition-colors duration-200 disabled:bg-gray-900 disabled:opacity-50 disabled:hover:bg-gray-700 disabled:hover:text-white",
             {
-               "text-white bg-gradient-to-r from-primary-600 to-primary-500 min-h-[40px] px-5 py-3 shadow-md shadow-primary-500/50 hover:bg-gradient-to-br":
+               "min-h-[40px] bg-gradient-to-r from-primary-600 to-primary-500 shadow-md shadow-primary-500/50 hover:bg-gradient-to-br":
                   variant === "primary",
-               "text-primary-700 bg-primay-100 border-gray-920 hover:bg-primary-200":
-                  variant === "secondary",
-               "text-white bg-rose-600 hover:bg-rose-700 px-5 py-[10px]": variant === "danger",
-               "text-white bg-primary-600 hover:bg-primary-500 px-2 py-0.5 text-xs capitalize":
+               "bg-primary-100 text-primary-700 hover:bg-primary-200": variant === "secondary",
+               "bg-rose-600 px-5 py-2.5 hover:bg-rose-700": variant === "danger",
+               "bg-primary-600 px-2 py-0.5 text-xs capitalize hover:bg-primary-500":
                   variant === "primary-action",
-               "!text-black text-xs capitalize border-0 px-2 py-1 hover:bg-gray-100":
+               "border-0 px-2 py-1 text-xs capitalize !text-black hover:bg-gray-100":
                   variant === "secondary-action",
             },
-            className
+            className,
          )}
       >
          {isLoading ? <Spinner /> : children}

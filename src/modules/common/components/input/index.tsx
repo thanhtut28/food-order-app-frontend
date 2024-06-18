@@ -1,9 +1,9 @@
 import { ErrorMessage } from "@hookform/error-message";
-import cn from "classnames";
 import { forwardRef, useRef, useImperativeHandle, useState, useEffect } from "react";
 import { get } from "react-hook-form";
 import Eye from "@/modules/common/icons/eye";
 import EyeOff from "@/modules/common/icons/eye-off";
+import cn from "@/lib/utils/classname";
 
 type InputProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "placeholder"> & {
    label: string;
@@ -50,10 +50,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   name={name}
                   placeholder=" "
                   className={cn(
-                     `peer py-3 block w-full outline-none px-4 transition-all duration-200 mt-0 border-2 rounded-full appearance-none focus:outline-none focus:ring-primary-600 focus:border-primary-600 border-gray-600 text-gray-700 focus:caret-primary-600 bg-transparent`,
+                     `peer mt-0 block w-full appearance-none rounded-full border-2 border-gray-600 bg-transparent py-3 px-4 text-gray-700 outline-none transition-all duration-200 focus:border-primary-600 focus:caret-primary-600 focus:outline-none focus:ring-primary-600`,
                      {
-                        "!border-rose-500 !focus:border-rose-500 !focus:caret-rose-500": hasError,
-                     }
+                        "border-rose-500 focus:border-rose-500 focus:caret-rose-500": hasError,
+                     },
                   )}
                   {...props}
                   ref={inputRef}
@@ -62,11 +62,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   htmlFor={name}
                   onClick={() => inputRef.current?.focus()}
                   className={cn(
-                     `mx-4 transition-all absolute text-sm font-semibold duration-300 top-4 text-gray-500`,
+                     `absolute top-4 mx-4 text-sm font-semibold text-gray-500 transition-all duration-300`,
                      {
                         "text-rose-500": hasError,
                         "peer-focus:text-primary-600": !hasError,
-                     }
+                     },
                   )}
                >
                   {label}
@@ -77,7 +77,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                      type="button"
                      //type button makes the button focusable
                      onClick={handleToggleShowPassword}
-                     className="text-gray-400 px-4 focus:outline-none transition-all duration-150 outline-none focus:text-primary-600 absolute right-0 top-4"
+                     className="absolute right-0 top-4 px-4 text-gray-400 outline-none transition-all duration-150 focus:text-primary-600 focus:outline-none"
                   >
                      {showPassword ? <Eye /> : <EyeOff />}
                   </button>
@@ -88,7 +88,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   errors={errors}
                   name={name}
                   render={({ message }) => (
-                     <div className="pt-1 pl-2 text-rose-500 text-sm">
+                     <div className="pt-1 pl-2 text-sm text-rose-500">
                         <span>{message}</span>
                      </div>
                   )}
@@ -96,7 +96,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             )}
          </div>
       );
-   }
+   },
 );
 
 Input.displayName = "Input";

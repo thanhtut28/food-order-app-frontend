@@ -1,6 +1,6 @@
-import cn from "classnames";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import ProfileEditAction from "../profile-edit-action";
+import cn from "@/lib/utils/classname";
 
 interface Props {
    label: string;
@@ -37,23 +37,24 @@ const AccountInfo: React.FC<Props> = ({ label, info, updating, updateAction }) =
 
    return (
       <div
-         className={cn("border bg-neutral-50 rounded-xl p-3", {
-            "border-primary-500": editing,
+         className={cn("rounded-xl border bg-neutral-50 p-3", {
+            "border-primary-500 caret-primary-500": editing,
          })}
       >
          <div className="flex flex-col gap-y-4">
-            <h6 className="text-sm text-slate-900 font-semibold capitalize">{label}</h6>
+            <h6 className="text-sm font-semibold capitalize text-slate-900">{label}</h6>
             <form onSubmit={handleUpdateInfo} className="flex justify-between">
                {editing ? (
                   <input
                      placeholder={info}
                      value={value}
+                     onBlur={() => setEditing(false)}
                      onChange={e => setValue(e.target.value)}
-                     className="text-sm text-gray-900 focus:outline-none placeholder:text-gray-500"
+                     className="rounded px-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border focus:border-primary-500 focus:outline-none"
                      ref={inputRef}
                   />
                ) : (
-                  <p className="text-sm text-gray-500 pt-0.5">{info}</p>
+                  <p className="pt-0.5 text-sm text-gray-500">{info}</p>
                )}
                <ProfileEditAction
                   editing={editing}

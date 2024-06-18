@@ -2,19 +2,21 @@ import { useEffect } from "react";
 import { LOGIN_VIEW, useAccount } from "@/lib/context/account-context";
 import Login from "@/modules/account/components/login";
 import Register from "@/modules/account/components/register";
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginTemplate = () => {
    const ctx = useAccount();
    const { refetchUser } = ctx;
    const [currentView, _] = ctx.loginView;
-   const { replace, query } = useRouter();
+   const { replace } = useRouter();
+   const searchParams = useSearchParams();
+   const refetchParams = searchParams.get("refetch");
 
    useEffect(() => {
-      if (query.refetch === "true") {
+      if (refetchParams === "true") {
          refetchUser();
       }
-   }, [query.refetch, refetchUser]);
+   }, [refetchParams, refetchUser]);
 
    useEffect(() => {
       if (ctx.me && !ctx.retrievingUser) {

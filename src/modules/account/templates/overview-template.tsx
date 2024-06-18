@@ -2,10 +2,10 @@ import { SuccessMessage } from "@/lib/constants/message";
 import { useAccount } from "@/lib/context/account-context";
 import { useLogoutMutation } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
-import cn from "classnames";
 import { toast } from "react-toastify";
 import ProfileEmail from "../components/profile-email";
 import ProfileUsername from "../components/profile-username";
+import cn from "@/lib/utils/classname";
 
 const OverviewTemplate: React.FC = () => {
    const [logout, { loading: loggingOut }] = useLogoutMutation({
@@ -28,9 +28,9 @@ const OverviewTemplate: React.FC = () => {
    return (
       <div className={cn("w-full rounded-3xl")}>
          <div className="mb-8">
-            <h2 className="text-2xl sm:text-2xl font-semibold text-gray-900">Overview</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 sm:text-2xl">Overview</h2>
          </div>
-         <div className="w-full flex flex-col">
+         <div className="flex w-full flex-col">
             {/* <AccountInfo label="email" info={ctx.me.email} /> */}
             {/* <ProfileEmail me={ctx.me} />
             <div className="my-2" />

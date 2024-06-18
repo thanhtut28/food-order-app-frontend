@@ -1,5 +1,5 @@
 import { GetAllCategoriesQuery } from "@/lib/generated/graphql";
-import cn from "classnames";
+import cn from "@/lib/utils/classname";
 import Image from "next/legacy/image";
 import Link from "next/link";
 
@@ -13,16 +13,14 @@ const MainCategory: React.FC<Props> = ({ category, num }) => {
 
    return (
       <div className="flex-1 cursor-pointer">
-         <Link
-            href={{ pathname: `/menu`, query: { category: category.id } }}
-            legacyBehavior>
+         <Link href={{ pathname: `/menu`, query: { category: category.id } }} legacyBehavior>
             <div
                className={cn({
                   "md:translate-y-20": isOddNum,
                })}
             >
                <div
-                  className={cn("rounded-3xl flex flex-col", {
+                  className={cn("flex flex-col rounded-3xl", {
                      "bg-amber-400": num === 0,
                      "bg-primary-100": num === 1,
                      "bg-amber-900": num === 3,
@@ -35,7 +33,7 @@ const MainCategory: React.FC<Props> = ({ category, num }) => {
                         height={2}
                         layout="responsive"
                         alt={`Cover Image for ${category.name}`}
-                        className="shadow-sm object-cover"
+                        className="object-cover shadow-sm"
                         src={category.menuItems?.[0].photo}
                         quality={50}
                      />
@@ -52,7 +50,7 @@ const MainCategory: React.FC<Props> = ({ category, num }) => {
                               "text-green-800": num === 1,
                               "text-amber-400": num === 3,
                               "text-amber-700": num === 2,
-                           }
+                           },
                         )}
                      >
                         {category?.name}
