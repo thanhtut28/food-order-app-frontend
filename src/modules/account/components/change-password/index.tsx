@@ -25,6 +25,7 @@ const ChangePassword = () => {
    } = useForm<ChangePasswordCredentials>();
    const [hasTokenError, setTokenError] = useState(false);
 
+   //TODO: to change new useRouter
    const { query } = useRouter();
 
    const [changePassword, { loading: changePasswordLoading }] = useChangePasswordMutation({

@@ -1,5 +1,5 @@
 import { ApolloQueryResult } from "@apollo/client";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import { createContext, useContext, useState, useCallback } from "react";
 import { Exact, MeQuery, useMeQuery } from "../generated/graphql";
 

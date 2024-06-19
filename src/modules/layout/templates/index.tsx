@@ -8,7 +8,7 @@ const Layout: React.FC<Props> = ({ children }) => {
    return (
       <div>
          <Nav />
-         <main className="py-24">{children}</main>
+         <main className="pt-20 pb-10">{children}</main>
       </div>
    );
 };

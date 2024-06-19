@@ -1,22 +1,33 @@
+import { GetMenuItemBySlugQuery } from "@/lib/generated/graphql";
+import { Canvas } from "@react-three/fiber";
+import { Suspense } from "react";
+import Burger from "../components/burger";
+import { Environment } from "@react-three/drei";
+import Loader from "../components/model-loader";
+import Image from "next/image";
+import Tag from "@/modules/common/icons/tag";
 import { INGREDIENTS } from "@/lib/constants/ingredients";
-import { GetAllCategoriesQuery, GetMenuItemBySlugQuery } from "@/lib/generated/graphql";
-import { useRouter } from "next/router";
-import { useState, useEffect, Suspense, useRef, lazy } from "react";
+import Button from "@/modules/common/components/button";
+import cn from "@/lib/utils/classname";
+import BurgerScene from "../components/burger-scene";
+import ProductSummary from "../components/product-summary";
+import ProductContainer from "../components/product-container";
 
+export type TItem = GetMenuItemBySlugQuery["getMenuItemBySlug"];
 interface Props {
-   item: GetMenuItemBySlugQuery["getMenuItemBySlug"];
+   item: TItem;
 }
 
 const ItemTemplate: React.FC<Props> = ({ item }) => {
-   const { query } = useRouter();
+   if (!item) {
+      return <h4 className="text-sm text-gray-600">No Item found.</h4>;
+   }
 
    return (
-      <div className="max-w-screen-lg mx-auto px-6 flex">
-         <div className="flex-1/2"></div>
-         <div className="flex-1">
-            <h1>Hello</h1>
-         </div>
-      </div>
+      <ProductContainer>
+         <BurgerScene ingredients={item.ingredientItems} />
+         <ProductSummary item={item} />
+      </ProductContainer>
    );
 };
 

@@ -55,7 +55,7 @@ const Login = () => {
    return (
       <AuthFormWrapper subtitle="Please sign in to purchase from our shop.">
          <form className="w-full" onSubmit={onSubmit}>
-            <div className="flex flex-col w-full gap-3">
+            <div className="flex w-full flex-col gap-3">
                <Input
                   label="Email"
                   {...register(Field.EMAIL, { required: FormErrorMessage.EMAIL_REQUIRED })}
@@ -80,14 +80,14 @@ const Login = () => {
             </Button>
          </form>
          <div className="mt-6 flex justify-between">
-            <span className="text-gray-500 text-xs">
+            <span className="text-xs text-gray-500">
                Not Registered?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.REGISTER)} className="underline">
                   Join us
                </button>
             </span>
 
-            <span className="text-gray-500 text-xs">
+            <span className="text-xs text-gray-500">
                <Link href="/account/forgot-password" className="underline">
                   Forgot Password?
                </Link>
