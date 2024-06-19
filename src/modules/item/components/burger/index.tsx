@@ -4,7 +4,7 @@ import { ContactShadows, useGLTF } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
 import { useRef, useState } from "react";
 import { Group } from "three";
-import Ingredient from "../ingredient";
+import BurgerIngredient from "../burger-ingredient";
 
 const INGREDIENT_SPACING = 0.22;
 const INGREDIENT_SPACING_FINAL = 0.06;
@@ -43,17 +43,17 @@ const Burger: React.FC<Props> = ({ ingredients }) => {
    //    });
 
    return (
-      <group position-y={(-ingredients.length * ingredientSpacing) / 2}>
+      <group position-y={(-ingredients.length * ingredientSpacing) / 2} position-x={-0.5}>
          <group ref={burgerRef}>
             {burger.map((ingredient, index) => (
-               <Ingredient
+               <BurgerIngredient
                   key={ingredient.id}
                   ingredient={{ ...INGREDIENTS[ingredient.name], name: ingredient.name }}
                   position-y={index * ingredientSpacing}
                />
             ))}
          </group>
-         <ContactShadows position-y={-0.5} opacity={0.6} />
+         <ContactShadows position-y={-0.5} position-x={0.5} opacity={0.6} />
       </group>
    );
 };

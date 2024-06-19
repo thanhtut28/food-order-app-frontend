@@ -19,6 +19,7 @@ export type Scalars = {
 export type AddCartItemInput = {
   cartId: Scalars['Int'];
   menuItemId: Scalars['Int'];
+  qty: Scalars['Int'];
 };
 
 export type AuthenticationResponse = {

@@ -31,7 +31,7 @@ const MenuItem: React.FC<Props> = ({ item }) => {
 
    return (
       <div
-         className="group my-16 mx-auto flex w-full max-w-xs cursor-pointer flex-col justify-between rounded-xl bg-white bg-gradient-to-br px-4 pt-10 pb-4 shadow-sm md:my-12"
+         className="group my-16 mx-auto flex w-full max-w-xs cursor-pointer flex-col justify-between rounded-xl bg-white px-4 pt-10 pb-4 shadow-sm md:my-12"
          onClick={() => router.push(`/item/${item.id}`)}
       >
          <div className="-mt-[50%] w-full pb-2 transition-all group-hover:scale-110">

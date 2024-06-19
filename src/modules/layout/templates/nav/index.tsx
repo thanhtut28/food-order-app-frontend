@@ -56,7 +56,7 @@ const NavLink: React.FC<AccountNavLinkProps> = ({ href, route, children }) => {
       <Link
          href={href}
          className={cn(
-            "relative block w-full py-6 font-bold tracking-wide text-gray-900 md:py-10",
+            "relative block w-full py-7 font-bold tracking-wide text-gray-900",
             "uppercase small-phones:px-3 small-phones:text-xs",
             {
                "before:absolute before:bottom-0 before:left-0 before:h-1.5 before:w-full before:bg-primary-700 before:content-['']":

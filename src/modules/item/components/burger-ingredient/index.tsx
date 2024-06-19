@@ -6,6 +6,7 @@ import { Group } from "three";
 import Loader from "../model-loader";
 import { capitializeText } from "@/lib/utils/capitalize-text";
 import { animated, useSpring } from "@react-spring/three";
+import { Globals } from "@react-spring/shared";
 
 const INGREDIENT_SCALE = 3;
 const INGREDIENT_SCALE_Y = 6;
@@ -15,11 +16,9 @@ interface Props extends Partial<GroupProps & { "position-y": number }> {
    ingredient?: TIngredient;
 }
 
-const Ingredient: React.FC<Props> = ({ ingredient, ...props }) => {
-   // const { positionY } = useSpring({ positionY: props["position-y"] });
-
+const BurgerIngredient: React.FC<Props> = ({ ingredient, ...props }) => {
    return (
-      <group {...props}>
+      <animated.group {...props}>
          {ingredient && (
             <Suspense fallback={<Loader />}>
                <group>
@@ -40,7 +39,7 @@ const Ingredient: React.FC<Props> = ({ ingredient, ...props }) => {
                      <meshBasicMaterial color="#fbd24e" />
                   </Text3D>
                </group>
-               <Float floatingRange={[-0.01, 0.01]} rotationIntensity={1}>
+               <Float floatingRange={[-0.02, 0.02]} rotationIntensity={1}>
                   <Gltf
                      src={ingredient.src}
                      scale={INGREDIENT_SCALE}
@@ -49,8 +48,8 @@ const Ingredient: React.FC<Props> = ({ ingredient, ...props }) => {
                </Float>
             </Suspense>
          )}
-      </group>
+      </animated.group>
    );
 };
 
-export default Ingredient;
+export default BurgerIngredient;
