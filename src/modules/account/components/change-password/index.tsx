@@ -55,7 +55,7 @@ const ChangePassword = () => {
    return (
       <AuthFormWrapper subtitle="Please enter new password">
          <form className="w-full" onSubmit={onSubmit}>
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex w-full flex-col gap-2">
                <Input
                   label="New Password"
                   {...register(Field.PASSWORD, {

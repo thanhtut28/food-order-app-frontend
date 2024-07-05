@@ -1,0 +1,11 @@
+fragment CartItemDetails on CartItem {
+   cartId
+   menuItemId
+   quantity
+   total
+   menuItem {
+      name
+      photo
+      price
+   }
+}

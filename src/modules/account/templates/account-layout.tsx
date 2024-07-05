@@ -15,17 +15,17 @@ const AccountLayout: React.FC<Props> = ({ children }) => {
       checkAuth();
    }, [checkAuth]);
 
-   if (!ctx?.me || ctx.retrievingUser) {
+   if (!ctx.me || ctx.retrievingUser) {
       return (
-         <div className="flex items-center justify-center w-full min-h-[640px] h-full text-gray-900">
+         <div className="flex h-full min-h-[640px] w-full items-center justify-center text-gray-900">
             <Spinner size={36} />
          </div>
       );
    }
 
    return (
-      <div className="max-w-screen-lg mx-auto">
-         <div className="mx-3 py-4 rounded-lg grid grid-cols-1 sm:grid-cols-[200px_1fr] gap-8 sm:gap-0">
+      <div className="mx-auto max-w-screen-lg">
+         <div className="mx-3 grid grid-cols-1 gap-8 rounded-lg py-4 sm:grid-cols-[200px_1fr] sm:gap-0">
             <AccountNav />
             {children}
          </div>

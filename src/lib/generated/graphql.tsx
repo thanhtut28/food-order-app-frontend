@@ -19,7 +19,7 @@ export type Scalars = {
 export type AddCartItemInput = {
   cartId: Scalars['Int'];
   menuItemId: Scalars['Int'];
-  qty: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 export type AuthenticationResponse = {
@@ -34,9 +34,16 @@ export type Cart = {
   cartItemsCount: Scalars['Int'];
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
+  total: Scalars['Float'];
   updatedAt: Scalars['DateTime'];
   user: User;
   userId: Scalars['Int'];
+};
+
+export type CartActionsInput = {
+  cartId: Scalars['Int'];
+  menuItemId: Scalars['Int'];
+  qty: Scalars['Int'];
 };
 
 export type CartItem = {
@@ -102,13 +109,13 @@ export type Ingredient = {
   __typename?: 'Ingredient';
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
-  ingredientItems: Array<IngreidentItem>;
+  ingredientItems: Array<IngredientItem>;
   name: Scalars['String'];
   updatedAt: Scalars['DateTime'];
 };
 
-export type IngreidentItem = {
-  __typename?: 'IngreidentItem';
+export type IngredientItem = {
+  __typename?: 'IngredientItem';
   id: Scalars['Int'];
   ingredient: Ingredient;
   ingredientId: Scalars['Int'];
@@ -123,7 +130,7 @@ export type MenuItem = {
   category: Category;
   createdAt: Scalars['DateTime'];
   id: Scalars['Int'];
-  ingredientItems: Array<IngreidentItem>;
+  ingredientItems: Array<IngredientItem>;
   name: Scalars['String'];
   photo: Scalars['String'];
   price: Scalars['Float'];
@@ -132,7 +139,7 @@ export type MenuItem = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  addToCart?: Maybe<Scalars['Boolean']>;
+  addToCart?: Maybe<CartItem>;
   changePassword: ChangePasswordResponse;
   createCategory: Category;
   createIngredient: Ingredient;
@@ -140,9 +147,11 @@ export type Mutation = {
   createNewCart: Scalars['Boolean'];
   forgotPassword: ChangePasswordResponse;
   logout: Scalars['Boolean'];
-  removeFromCart?: Maybe<Cart>;
+  removeCartItem: Scalars['Boolean'];
   signIn?: Maybe<AuthenticationResponse>;
   signUp: AuthenticationResponse;
+  updateAddress: Scalars['Boolean'];
+  updateCartItem?: Maybe<CartItem>;
   updateEmail: Scalars['Boolean'];
   updateMenuItem: MenuItem;
   updateUsername: Scalars['Boolean'];
@@ -179,8 +188,8 @@ export type MutationForgotPasswordArgs = {
 };
 
 
-export type MutationRemoveFromCartArgs = {
-  input: AddCartItemInput;
+export type MutationRemoveCartItemArgs = {
+  input: RemoveCartItemInput;
 };
 
 
@@ -191,6 +200,16 @@ export type MutationSignInArgs = {
 
 export type MutationSignUpArgs = {
   input: SignUpUserInput;
+};
+
+
+export type MutationUpdateAddressArgs = {
+  address: Scalars['String'];
+};
+
+
+export type MutationUpdateCartItemArgs = {
+  input: UpdateCartItemInput;
 };
 
 
@@ -237,6 +256,11 @@ export type QueryGetMenuItemsByCategoryArgs = {
   input: GetMenuItemsInput;
 };
 
+export type RemoveCartItemInput = {
+  cartId: Scalars['Int'];
+  menuItemId: Scalars['Int'];
+};
+
 export type SignInUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -246,6 +270,12 @@ export type SignUpUserInput = {
   email: Scalars['String'];
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+export type UpdateCartItemInput = {
+  cartId: Scalars['Int'];
+  menuItemId: Scalars['Int'];
+  quantity: Scalars['Int'];
 };
 
 export type UpdateMenuItemInput = {
@@ -258,6 +288,7 @@ export type UpdateMenuItemInput = {
 
 export type User = {
   __typename?: 'User';
+  address?: Maybe<Scalars['String']>;
   cart: Cart;
   createdAt: Scalars['DateTime'];
   email: Scalars['String'];
@@ -266,12 +297,14 @@ export type User = {
   username: Scalars['String'];
 };
 
+export type CartItemDetailsFragment = { __typename?: 'CartItem', cartId: number, menuItemId: number, quantity: number, total: number, menuItem: { __typename?: 'MenuItem', name: string, photo: string, price: number } };
+
 export type AddToCartMutationVariables = Exact<{
   input: AddCartItemInput;
 }>;
 
 
-export type AddToCartMutation = { __typename?: 'Mutation', addToCart?: boolean | null };
+export type AddToCartMutation = { __typename?: 'Mutation', addToCart?: { __typename?: 'CartItem', cartId: number, menuItemId: number, quantity: number, total: number, menuItem: { __typename?: 'MenuItem', name: string, photo: string, price: number } } | null };
 
 export type ChangePasswordMutationVariables = Exact<{
   input: ChangePasswordInput;
@@ -297,6 +330,13 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
 
+export type RemoveCartItemMutationVariables = Exact<{
+  input: RemoveCartItemInput;
+}>;
+
+
+export type RemoveCartItemMutation = { __typename?: 'Mutation', removeCartItem: boolean };
+
 export type SignUpMutationVariables = Exact<{
   input: SignUpUserInput;
 }>;
@@ -310,6 +350,20 @@ export type SignInMutationVariables = Exact<{
 
 
 export type SignInMutation = { __typename?: 'Mutation', signIn?: { __typename?: 'AuthenticationResponse', error?: { __typename?: 'ErrorResponse', message: string, field: string } | null, user?: { __typename?: 'User', id: number, email: string, username: string } | null } | null };
+
+export type UpdateAddressMutationVariables = Exact<{
+  address: Scalars['String'];
+}>;
+
+
+export type UpdateAddressMutation = { __typename?: 'Mutation', updateAddress: boolean };
+
+export type UpdateCartItemMutationVariables = Exact<{
+  input: UpdateCartItemInput;
+}>;
+
+
+export type UpdateCartItemMutation = { __typename?: 'Mutation', updateCartItem?: { __typename?: 'CartItem', cartId: number, menuItemId: number, quantity: number, total: number, menuItem: { __typename?: 'MenuItem', name: string, photo: string, price: number } } | null };
 
 export type UpdateEmailMutationVariables = Exact<{
   email: Scalars['String'];
@@ -338,14 +392,14 @@ export type GetAllMenuItemsQuery = { __typename?: 'Query', getAllMenuItems: Arra
 export type GetCartQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type GetCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number, cartItemsCount: number } | null };
+export type GetCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number, cartItemsCount: number, total: number } | null };
 
 export type GetCartItemsQueryVariables = Exact<{
   input: GetCartItemsInput;
 }>;
 
 
-export type GetCartItemsQuery = { __typename?: 'Query', getCartItems: Array<{ __typename?: 'CartItem', total: number, quantity: number, menuItemId: number, cartId: number }> };
+export type GetCartItemsQuery = { __typename?: 'Query', getCartItems: Array<{ __typename?: 'CartItem', cartId: number, menuItemId: number, quantity: number, total: number, menuItem: { __typename?: 'MenuItem', name: string, photo: string, price: number } }> };
 
 export type GetMenuItemsByCategoryQueryVariables = Exact<{
   input: GetMenuItemsInput;
@@ -359,19 +413,38 @@ export type GetMenuItemBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetMenuItemBySlugQuery = { __typename?: 'Query', getMenuItemBySlug?: { __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category: { __typename?: 'Category', name: string }, ingredientItems: Array<{ __typename?: 'IngreidentItem', id: number, order: number, ingredient: { __typename?: 'Ingredient', name: string } }> } | null };
+export type GetMenuItemBySlugQuery = { __typename?: 'Query', getMenuItemBySlug?: { __typename?: 'MenuItem', id: number, name: string, photo: string, price: number, category: { __typename?: 'Category', name: string }, ingredientItems: Array<{ __typename?: 'IngredientItem', id: number, order: number, ingredient: { __typename?: 'Ingredient', name: string } }> } | null };
+
+export type GetUserWithCartQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type GetUserWithCartQuery = { __typename?: 'Query', getCart?: { __typename?: 'Cart', id: number, cartItemsCount: number } | null, me?: { __typename?: 'User', id: number, username: string, email: string, address?: string | null } | null };
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, email: string } | null };
+export type MeQuery = { __typename?: 'Query', me?: { __typename?: 'User', id: number, username: string, email: string, address?: string | null } | null };
 
-
-export const AddToCartDocument = gql`
-    mutation AddToCart($input: AddCartItemInput!) {
-  addToCart(input: $input)
+export const CartItemDetailsFragmentDoc = gql`
+    fragment CartItemDetails on CartItem {
+  cartId
+  menuItemId
+  quantity
+  total
+  menuItem {
+    name
+    photo
+    price
+  }
 }
     `;
+export const AddToCartDocument = gql`
+    mutation AddToCart($input: AddCartItemInput!) {
+  addToCart(input: $input) {
+    ...CartItemDetails
+  }
+}
+    ${CartItemDetailsFragmentDoc}`;
 export type AddToCartMutationFn = Apollo.MutationFunction<AddToCartMutation, AddToCartMutationVariables>;
 
 /**
@@ -532,6 +605,37 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const RemoveCartItemDocument = gql`
+    mutation RemoveCartItem($input: RemoveCartItemInput!) {
+  removeCartItem(input: $input)
+}
+    `;
+export type RemoveCartItemMutationFn = Apollo.MutationFunction<RemoveCartItemMutation, RemoveCartItemMutationVariables>;
+
+/**
+ * __useRemoveCartItemMutation__
+ *
+ * To run a mutation, you first call `useRemoveCartItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useRemoveCartItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [removeCartItemMutation, { data, loading, error }] = useRemoveCartItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useRemoveCartItemMutation(baseOptions?: Apollo.MutationHookOptions<RemoveCartItemMutation, RemoveCartItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<RemoveCartItemMutation, RemoveCartItemMutationVariables>(RemoveCartItemDocument, options);
+      }
+export type RemoveCartItemMutationHookResult = ReturnType<typeof useRemoveCartItemMutation>;
+export type RemoveCartItemMutationResult = Apollo.MutationResult<RemoveCartItemMutation>;
+export type RemoveCartItemMutationOptions = Apollo.BaseMutationOptions<RemoveCartItemMutation, RemoveCartItemMutationVariables>;
 export const SignUpDocument = gql`
     mutation SignUp($input: SignUpUserInput!) {
   signUp(input: $input) {
@@ -614,6 +718,70 @@ export function useSignInMutation(baseOptions?: Apollo.MutationHookOptions<SignI
 export type SignInMutationHookResult = ReturnType<typeof useSignInMutation>;
 export type SignInMutationResult = Apollo.MutationResult<SignInMutation>;
 export type SignInMutationOptions = Apollo.BaseMutationOptions<SignInMutation, SignInMutationVariables>;
+export const UpdateAddressDocument = gql`
+    mutation UpdateAddress($address: String!) {
+  updateAddress(address: $address)
+}
+    `;
+export type UpdateAddressMutationFn = Apollo.MutationFunction<UpdateAddressMutation, UpdateAddressMutationVariables>;
+
+/**
+ * __useUpdateAddressMutation__
+ *
+ * To run a mutation, you first call `useUpdateAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateAddressMutation, { data, loading, error }] = useUpdateAddressMutation({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useUpdateAddressMutation(baseOptions?: Apollo.MutationHookOptions<UpdateAddressMutation, UpdateAddressMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateAddressMutation, UpdateAddressMutationVariables>(UpdateAddressDocument, options);
+      }
+export type UpdateAddressMutationHookResult = ReturnType<typeof useUpdateAddressMutation>;
+export type UpdateAddressMutationResult = Apollo.MutationResult<UpdateAddressMutation>;
+export type UpdateAddressMutationOptions = Apollo.BaseMutationOptions<UpdateAddressMutation, UpdateAddressMutationVariables>;
+export const UpdateCartItemDocument = gql`
+    mutation UpdateCartItem($input: UpdateCartItemInput!) {
+  updateCartItem(input: $input) {
+    ...CartItemDetails
+  }
+}
+    ${CartItemDetailsFragmentDoc}`;
+export type UpdateCartItemMutationFn = Apollo.MutationFunction<UpdateCartItemMutation, UpdateCartItemMutationVariables>;
+
+/**
+ * __useUpdateCartItemMutation__
+ *
+ * To run a mutation, you first call `useUpdateCartItemMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateCartItemMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateCartItemMutation, { data, loading, error }] = useUpdateCartItemMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateCartItemMutation(baseOptions?: Apollo.MutationHookOptions<UpdateCartItemMutation, UpdateCartItemMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateCartItemMutation, UpdateCartItemMutationVariables>(UpdateCartItemDocument, options);
+      }
+export type UpdateCartItemMutationHookResult = ReturnType<typeof useUpdateCartItemMutation>;
+export type UpdateCartItemMutationResult = Apollo.MutationResult<UpdateCartItemMutation>;
+export type UpdateCartItemMutationOptions = Apollo.BaseMutationOptions<UpdateCartItemMutation, UpdateCartItemMutationVariables>;
 export const UpdateEmailDocument = gql`
     mutation UpdateEmail($email: String!) {
   updateEmail(email: $email)
@@ -753,6 +921,7 @@ export const GetCartDocument = gql`
   getCart {
     id
     cartItemsCount
+    total
   }
 }
     `;
@@ -786,13 +955,10 @@ export type GetCartQueryResult = Apollo.QueryResult<GetCartQuery, GetCartQueryVa
 export const GetCartItemsDocument = gql`
     query GetCartItems($input: GetCartItemsInput!) {
   getCartItems(input: $input) {
-    total
-    quantity
-    menuItemId
-    cartId
+    ...CartItemDetails
   }
 }
-    `;
+    ${CartItemDetailsFragmentDoc}`;
 
 /**
  * __useGetCartItemsQuery__
@@ -910,12 +1076,54 @@ export function useGetMenuItemBySlugLazyQuery(baseOptions?: Apollo.LazyQueryHook
 export type GetMenuItemBySlugQueryHookResult = ReturnType<typeof useGetMenuItemBySlugQuery>;
 export type GetMenuItemBySlugLazyQueryHookResult = ReturnType<typeof useGetMenuItemBySlugLazyQuery>;
 export type GetMenuItemBySlugQueryResult = Apollo.QueryResult<GetMenuItemBySlugQuery, GetMenuItemBySlugQueryVariables>;
+export const GetUserWithCartDocument = gql`
+    query GetUserWithCart {
+  getCart {
+    id
+    cartItemsCount
+  }
+  me {
+    id
+    username
+    email
+    address
+  }
+}
+    `;
+
+/**
+ * __useGetUserWithCartQuery__
+ *
+ * To run a query within a React component, call `useGetUserWithCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserWithCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserWithCartQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetUserWithCartQuery(baseOptions?: Apollo.QueryHookOptions<GetUserWithCartQuery, GetUserWithCartQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserWithCartQuery, GetUserWithCartQueryVariables>(GetUserWithCartDocument, options);
+      }
+export function useGetUserWithCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserWithCartQuery, GetUserWithCartQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserWithCartQuery, GetUserWithCartQueryVariables>(GetUserWithCartDocument, options);
+        }
+export type GetUserWithCartQueryHookResult = ReturnType<typeof useGetUserWithCartQuery>;
+export type GetUserWithCartLazyQueryHookResult = ReturnType<typeof useGetUserWithCartLazyQuery>;
+export type GetUserWithCartQueryResult = Apollo.QueryResult<GetUserWithCartQuery, GetUserWithCartQueryVariables>;
 export const MeDocument = gql`
     query Me {
   me {
     id
     username
     email
+    address
   }
 }
     `;

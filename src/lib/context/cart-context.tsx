@@ -11,6 +11,7 @@ import { useAccount } from "./account-context";
 interface CartContextInterface {
    cartItemsQty: number;
    cartId?: number;
+   total?: number;
 }
 
 const CartContext = createContext<CartContextInterface | null>(null);
@@ -51,6 +52,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
    const cartContext = {
       cartItemsQty: cartData?.getCart?.cartItemsCount || 0,
       cartId: cartData?.getCart?.id,
+      total: cartData?.getCart?.total,
    };
 
    return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>;

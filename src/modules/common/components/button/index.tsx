@@ -4,7 +4,14 @@ import cn from "@/lib/utils/classname";
 
 type ButtonProps = {
    isLoading?: boolean;
-   variant?: "primary" | "secondary" | "danger" | "primary-action" | "secondary-action" | "square";
+   variant?:
+      | "primary"
+      | "secondary"
+      | "danger"
+      | "primary-action"
+      | "secondary-action"
+      | "square"
+      | "icon";
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button = ({
@@ -29,8 +36,9 @@ const Button = ({
                   variant === "primary-action",
                "border-0 px-2 py-1 text-xs capitalize !text-black hover:bg-gray-100":
                   variant === "secondary-action",
-               "h-8 w-8 rounded-lg bg-white p-2 text-lg text-gray-900 disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-300":
+               "h-6 w-6 rounded-md bg-white p-2 text-lg text-gray-900 disabled:bg-gray-400 disabled:text-white disabled:hover:bg-gray-300":
                   variant === "square",
+               "inline w-fit p-1 capitalize text-gray-800": variant === "icon",
             },
             className,
          )}

@@ -32,7 +32,7 @@ const ProductSummary: React.FC<Props> = ({ item }) => {
             handleDecrementQty={handleDecrementQty}
             isDrecementBtnDisabled={isDrecementBtnDisabled}
          />
-         <ProductAction price={totalPrice} itemId={item.id} qty={qty} />
+         <ProductAction price={totalPrice} itemId={item.id} quantity={qty} />
       </ProductSummaryWrapper>
    );
 };

@@ -1,12 +1,9 @@
-import { INGREDIENTS, TIngredient } from "@/lib/constants/ingredients";
-import { Environment, Float, Gltf, Text3D } from "@react-three/drei";
+import { TIngredient } from "@/lib/constants/ingredients";
+import { capitializeText } from "@/lib/utils/capitalize-text";
+import { Float, Gltf, Text3D } from "@react-three/drei";
 import { GroupProps } from "@react-three/fiber";
 import { Suspense } from "react";
-import { Group } from "three";
 import Loader from "../model-loader";
-import { capitializeText } from "@/lib/utils/capitalize-text";
-import { animated, useSpring } from "@react-spring/three";
-import { Globals } from "@react-spring/shared";
 
 const INGREDIENT_SCALE = 3;
 const INGREDIENT_SCALE_Y = 6;
@@ -18,7 +15,7 @@ interface Props extends Partial<GroupProps & { "position-y": number }> {
 
 const BurgerIngredient: React.FC<Props> = ({ ingredient, ...props }) => {
    return (
-      <animated.group {...props}>
+      <group {...props}>
          {ingredient && (
             <Suspense fallback={<Loader />}>
                <group>
@@ -48,7 +45,7 @@ const BurgerIngredient: React.FC<Props> = ({ ingredient, ...props }) => {
                </Float>
             </Suspense>
          )}
-      </animated.group>
+      </group>
    );
 };
 

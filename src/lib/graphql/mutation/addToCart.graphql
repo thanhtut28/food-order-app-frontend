@@ -1,3 +1,0 @@
-mutation AddToCart($input: AddCartItemInput!) {
-   addToCart(input: $input)
-}
