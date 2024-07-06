@@ -13,6 +13,7 @@ interface AccountContextInterface {
    loginView: [LOGIN_VIEW, React.Dispatch<React.SetStateAction<LOGIN_VIEW>>];
    retrievingUser: boolean;
    checkAuth: () => void;
+   checkAccount: () => void;
    refetchUser: (
       variables?:
          | Partial<
@@ -20,7 +21,7 @@ interface AccountContextInterface {
                  [key: string]: never;
               }>
            >
-         | undefined
+         | undefined,
    ) => Promise<ApolloQueryResult<MeQuery>>;
 }
 
@@ -34,19 +35,26 @@ export const AccountProvider = ({ children }: { children?: React.ReactNode }) =>
    } = useMeQuery({ fetchPolicy: "network-only", onError: () => {} });
    const loginView = useState<LOGIN_VIEW>(LOGIN_VIEW.SIGN_IN);
 
-   const router = useRouter();
+   const { replace } = useRouter();
 
    const checkAuth = useCallback(() => {
       if (!data?.me && !retrievingUser) {
-         router.replace(`/account/login`);
+         replace(`/account/login`);
       }
-   }, [data?.me, router, retrievingUser]);
+   }, [data?.me, replace, retrievingUser]);
+
+   const checkAccount = useCallback(() => {
+      if (data?.me && !retrievingUser) {
+         replace("/account/profile");
+      }
+   }, [data?.me, replace, retrievingUser]);
 
    const accountContext = {
       me: data?.me,
       loginView,
       retrievingUser,
       checkAuth,
+      checkAccount,
       refetchUser,
    };
 

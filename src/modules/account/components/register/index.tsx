@@ -36,7 +36,7 @@ const Register = () => {
             setError(Field.PASSWORD, { message: data.signUp.error.message });
             return;
          }
-
+         setCurrentView(LOGIN_VIEW.SIGN_IN);
          toast.success(SuccessMessage.SIGN_UP_SUCCESS);
       },
       onError: () => {},
@@ -57,7 +57,7 @@ const Register = () => {
    return (
       <AuthFormWrapper subtitle="Please register a new account to purchase from our shop.">
          <form className="w-full" onSubmit={onSubmit}>
-            <div className="flex flex-col w-full gap-3">
+            <div className="flex w-full flex-col gap-3">
                <Input
                   label="Email"
                   {...register(Field.EMAIL, { required: FormErrorMessage.EMAIL_REQUIRED })}
@@ -92,7 +92,7 @@ const Register = () => {
             </Button>
          </form>
          <div className="mt-6">
-            <span className="text-gray-500 text-xs">
+            <span className="text-xs text-gray-500">
                Already have an account?{" "}
                <button onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)} className="underline">
                   Sign In

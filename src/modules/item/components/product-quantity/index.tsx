@@ -15,11 +15,11 @@ const ProductQuantity: React.FC<Props> = ({
 }) => {
    return (
       <div className="pt-14 pb-4">
-         <div className="inline-flex w-32 items-center justify-between gap-4 rounded-xl bg-gray-100 p-1">
+         <div className="inline-flex w-24 items-center justify-between rounded-lg bg-gray-100 p-1">
             <Button variant="square" onClick={handleDecreaseQty} disabled={isDrecementBtnDisabled}>
                -
             </Button>
-            <p className="text-lg font-bold text-gray-800">{quantity.toString()}</p>
+            <p className="font-semibold text-gray-800">{quantity.toString()}</p>
             <Button variant="square" onClick={handleIncreaseQty}>
                +
             </Button>

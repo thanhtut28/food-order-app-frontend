@@ -6,6 +6,7 @@ import Input from "@/modules/common/components/input";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AuthFormWrapper from "../auth-form-wrapper";
+import Link from "next/link";
 
 interface ForgotPasswordCredentials {
    email: string;
@@ -40,7 +41,7 @@ const ForgotPassword = () => {
    return (
       <AuthFormWrapper subtitle="Please enter your email to change password.">
          <form className="w-full" onSubmit={onSubmit}>
-            <div className="flex flex-col w-full gap-2">
+            <div className="flex w-full flex-col gap-2">
                <Input
                   label="Email"
                   {...register(Field.EMAIL, { required: FormErrorMessage.EMAIL_REQUIRED })}
@@ -53,6 +54,13 @@ const ForgotPassword = () => {
                Continue
             </Button>
          </form>
+         <div className="mt-6 flex justify-between">
+            <span className="text-xs text-gray-500">
+               <Link href="/account/login" className="underline">
+                  Back to Sign In
+               </Link>
+            </span>
+         </div>
       </AuthFormWrapper>
    );
 };

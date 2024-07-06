@@ -1,7 +1,7 @@
 import React from "react";
 import { IconProps } from "@/types/icon";
 
-const Spinner: React.FC<IconProps> = ({ size = "16", color = "currentColor", ...attributes }) => {
+const Spinner: React.FC<IconProps> = ({ size = "20", color = "currentColor", ...attributes }) => {
    return (
       <svg
          className="animate-spin"

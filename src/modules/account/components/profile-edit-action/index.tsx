@@ -24,9 +24,9 @@ const ProfileEditAction: React.FC<Props> = ({ editing, setEditing, cancelAction,
                </Button>
             </div>
          ) : (
-            <button className="text-gray-700 pb-1" onClick={() => setEditing(true)}>
+            <Button variant="icon" className="pb-1 text-gray-700" onClick={() => setEditing(true)}>
                <Edit />
-            </button>
+            </Button>
          )}
       </>
    );

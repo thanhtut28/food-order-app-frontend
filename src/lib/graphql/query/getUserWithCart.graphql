@@ -1,0 +1,12 @@
+query GetUserWithCart {
+   getCart {
+      id
+      cartItemsCount
+   }
+   me {
+      id
+      username
+      email
+      address
+   }
+}

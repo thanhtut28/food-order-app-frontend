@@ -5,6 +5,7 @@ import Button from "@/modules/common/components/button";
 import { toast } from "react-toastify";
 import ProfileEmail from "../components/profile-email";
 import ProfileUsername from "../components/profile-username";
+import ProfileAddress from "../components/profile-address";
 
 const ProfileTemplate: React.FC = () => {
    const [logout, { loading: loggingOut }] = useLogoutMutation({
@@ -23,7 +24,7 @@ const ProfileTemplate: React.FC = () => {
    };
 
    return (
-      <div className="w-full max-w-lg rounded-3xl px-4">
+      <div className="w-full max-w-xl rounded-3xl px-4">
          <div className="mb-8">
             <h2 className="text-2xl font-semibold text-gray-900 sm:text-2xl">
                Personal Information
@@ -34,6 +35,8 @@ const ProfileTemplate: React.FC = () => {
             <ProfileEmail me={ctx.me} />
             <div className="my-2" />
             <ProfileUsername me={ctx.me} />
+            <div className="my-2" />
+            <ProfileAddress me={ctx.me} />
             <div className="my-4 flex justify-end">
                <Button onClick={handleLogout} isLoading={loggingOut}>
                   Logout

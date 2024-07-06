@@ -1,8 +1,5 @@
 query GetCartItems($input: GetCartItemsInput!) {
    getCartItems(input: $input) {
-      total
-      quantity
-      menuItemId
-      cartId
+      ...CartItemDetails
    }
 }

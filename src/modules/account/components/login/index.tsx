@@ -5,7 +5,7 @@ import { GetCartDocument, MeDocument, useSignInMutation } from "@/lib/generated/
 import Button from "@/modules/common/components/button";
 import Input from "@/modules/common/components/input";
 import Link from "next/link";
-import { useForm, FieldValues } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import AuthFormWrapper from "../auth-form-wrapper";
 

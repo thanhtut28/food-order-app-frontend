@@ -1,33 +1,15 @@
-import ArrowRight from "@/modules/common/icons/arrow-right";
-import { useCart } from "../../../../lib/context/cart-context";
-import {
-   GetAllCategoriesQuery,
-   GetCartDocument,
-   GetCartItemsDocument,
-   GetMenuItemsByCategoryQuery,
-   useAddToCartMutation,
-} from "../../../../lib/generated/graphql";
-import Plus from "../../../common/icons/plus";
-import Image from "next/legacy/image";
-import React from "react";
-import { useRouter } from "next/navigation";
 import cn from "@/lib/utils/classname";
+import Image from "next/legacy/image";
+import { useRouter } from "next/navigation";
+import React from "react";
+import { GetMenuItemsByCategoryQuery } from "../../../../lib/generated/graphql";
 
 interface Props {
    item: GetMenuItemsByCategoryQuery["getMenuItemsByCategory"][number];
 }
 
 const MenuItem: React.FC<Props> = ({ item }) => {
-   const { cartId } = useCart();
    const router = useRouter();
-
-   const [addToCart, { data, loading, error }] = useAddToCartMutation({
-      // last recent code
-      variables: { input: { cartId: cartId!, menuItemId: item.id } },
-      refetchQueries: [GetCartDocument, GetCartItemsDocument],
-   });
-
-   console.log("added", data?.addToCart);
 
    return (
       <div
@@ -47,9 +29,9 @@ const MenuItem: React.FC<Props> = ({ item }) => {
          </div>
          <h6
             className={cn(
-               "min-h-[3rem] text-sm font-bold capitalize text-gray-800",
+               "min-h-[3rem] font-bold capitalize text-gray-800",
                "small-phones:text-base",
-               "sm:text-base",
+               "sm:text-lg",
             )}
          >
             {item.name}

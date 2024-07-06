@@ -1,9 +1,23 @@
 const nextConfig = {
    reactStrictMode: true,
    images: {
-      domains: ["images.unsplash.com", "www.burgerking.nl"],
+      remotePatterns: [
+         {
+            protocol: "https",
+            port: "",
+            pathname: "",
+            hostname: "images.unsplash.com",
+         },
+         {
+            protocol: "https",
+            port: "",
+            pathname: "/007_nl/products_nl/**",
+            hostname: "www.burgerking.nl",
+         },
+      ],
    },
-   transpilePackages: ['three'],
+
+   transpilePackages: ["three"],
 };
 
 module.exports = nextConfig;

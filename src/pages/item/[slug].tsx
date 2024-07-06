@@ -59,10 +59,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
       params: { slug: item.id.toString() },
    }));
 
-   console.log(paths);
-
    return {
       paths,
-      fallback: false,
+      fallback: true,
    };
 };

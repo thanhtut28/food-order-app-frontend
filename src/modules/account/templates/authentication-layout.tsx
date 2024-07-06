@@ -1,10 +1,28 @@
+import { useAccount } from "@/lib/context/account-context";
 import cn from "@/lib/utils/classname";
+import Spinner from "@/modules/common/icons/spinner";
+import { useEffect } from "react";
 
 interface Props {
    children: React.ReactNode;
 }
 
 const AuthenticationLayout: React.FC<Props> = ({ children }) => {
+   const ctx = useAccount();
+   const { checkAccount } = ctx;
+
+   useEffect(() => {
+      checkAccount();
+   }, [checkAccount]);
+
+   if (ctx.me || ctx.retrievingUser) {
+      return (
+         <div className="flex h-full min-h-[640px] w-full items-center justify-center text-gray-900">
+            <Spinner size={36} />
+         </div>
+      );
+   }
+
    return (
       <div className="relative flex justify-center md:px-12 lg:px-0">
          <div className={cn("z-10 flex min-h-screen w-full max-w-xl items-center bg-white px-2")}>

@@ -31,7 +31,7 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
             fetchMore({
                variables: { input: { categoryId, cursor: menuItems?.[menuItems?.length - 1].id } },
             }).then(fetchMoreRes =>
-               setHasMore(fetchMoreRes.data.getMenuItemsByCategory.length > 0)
+               setHasMore(fetchMoreRes.data.getMenuItemsByCategory.length > 0),
             );
          }
       }, 100);
@@ -47,7 +47,7 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
    if (loading) {
       return (
          <div
-            className="flex items-center justify-center w-full min-h-[640px] h-full text-gray-800"
+            className="flex h-full min-h-[640px] w-full items-center justify-center text-gray-800"
             data-testid="loading-container"
          >
             <Spinner size={36} />
@@ -60,21 +60,21 @@ const MenuItems: React.FC<Props> = ({ categoryId }) => {
          <Title>Menu Items</Title>
          {menuItems && menuItems.length > 0 ? (
             <>
-               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 gap-y-8 pt-6">
+               <div className="grid grid-cols-1 gap-4 gap-y-8 pt-6 sm:grid-cols-2 md:grid-cols-4">
                   {menuItems.map(item => (
                      <MenuItem item={item} key={item.id} />
                   ))}
                </div>
                <div ref={ref} className="pt-6">
                   {!hasMore && (
-                     <h6 className="text-sm text-gray-600 text-center">{`You've reached the end`}</h6>
+                     <h6 className="text-center text-sm text-gray-600">{`You've reached the end`}</h6>
                   )}
                </div>
             </>
          ) : (
             <h4 className="text-sm text-gray-600">No items found.</h4>
          )}
-         <div ref={ref} />
+         {/* <div ref={ref} /> */}
       </section>
    );
 };
