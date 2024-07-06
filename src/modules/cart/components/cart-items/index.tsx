@@ -70,7 +70,7 @@ const CartItems: React.FC = () => {
                <div ref={ref} className="pt-6" />
             </>
          ) : (
-            <h4 className="text-sm text-gray-600">No items found.</h4>
+            <h4 className="text-sm text-gray-600">The cart is empty.</h4>
          )}
       </section>
    );

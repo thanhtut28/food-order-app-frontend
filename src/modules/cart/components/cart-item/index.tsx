@@ -1,8 +1,6 @@
 import { SuccessMessage } from "@/lib/constants/message";
-import { useCart } from "@/lib/context/cart-context";
 import {
    GetCartDocument,
-   GetCartItemsDocument,
    GetCartItemsQuery,
    useRemoveCartItemMutation,
    useUpdateCartItemMutation,
@@ -80,7 +78,7 @@ const CartItem: React.FC<Props> = ({ item: { menuItemId, cartId, quantity, menuI
    };
 
    return (
-      <div className="flex items-start justify-between gap-4 rounded-lg bg-white px-2 py-6">
+      <div className="flex items-stretch justify-between gap-4 rounded-lg bg-white px-2 py-6">
          {/* <div
             className={cn(
                "flex h-8 w-8 items-center justify-center rounded-md border border-gray-300 text-xs text-primary-600",
@@ -90,7 +88,7 @@ const CartItem: React.FC<Props> = ({ item: { menuItemId, cartId, quantity, menuI
          >
             <button>{`${item.quantity}x`}</button>
          </div> */}
-         <div className="w-14">
+         <div className={cn("w-14", "sm:w-20")}>
             <div className="w-full">
                <Image
                   width={3}
@@ -105,7 +103,11 @@ const CartItem: React.FC<Props> = ({ item: { menuItemId, cartId, quantity, menuI
          </div>
 
          <div className="flex flex-1 flex-col justify-center">
-            <h6 className="pb-2 text-sm font-semibold capitalize">{menuItem.name}</h6>
+            <h6
+               className={cn("pb-2 text-sm font-semibold capitalize", "sm:text-base", "lg:text-lg")}
+            >
+               {menuItem.name}
+            </h6>
             <p className="text-primary-700">{quantity.toString()}x</p>
          </div>
 
@@ -151,8 +153,8 @@ const CartItem: React.FC<Props> = ({ item: { menuItemId, cartId, quantity, menuI
                </div>
             )}
 
-            <div className="py-3">
-               <p className="tetx-sm font-semibold">${total}</p>
+            <div className="pt-3">
+               <p className="font-semibold">${total}</p>
             </div>
          </div>
       </div>

@@ -29,9 +29,9 @@ const MenuItem: React.FC<Props> = ({ item }) => {
          </div>
          <h6
             className={cn(
-               "min-h-[3rem] text-sm font-bold capitalize text-gray-800",
+               "min-h-[3rem] font-bold capitalize text-gray-800",
                "small-phones:text-base",
-               "sm:text-base",
+               "sm:text-lg",
             )}
          >
             {item.name}

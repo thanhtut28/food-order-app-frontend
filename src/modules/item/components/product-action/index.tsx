@@ -2,11 +2,12 @@ import { ErrorMessage, SuccessMessage } from "@/lib/constants/message";
 import { useAccount } from "@/lib/context/account-context";
 import { useCart } from "@/lib/context/cart-context";
 import {
+   CartItemDetailsFragmentDoc,
    GetCartDocument,
-   GetCartItemsDocument,
    useAddToCartMutation,
 } from "@/lib/generated/graphql";
 import Button from "@/modules/common/components/button";
+import { Reference } from "@apollo/client";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
@@ -21,26 +22,35 @@ const ProductAction: React.FC<Props> = ({ price, itemId, quantity }) => {
    const { me } = useAccount();
    const router = useRouter();
    const [addToCart, { loading: addingToCart }] = useAddToCartMutation({
-      refetchQueries: [GetCartDocument, GetCartItemsDocument],
+      refetchQueries: [GetCartDocument],
       onCompleted: () => {
          toast.success(SuccessMessage.ADDED_TO_CART);
       },
       onError: () => {},
+      update: (cache, { data }) => {
+         cache.modify({
+            fields: {
+               getCartItems(existingCartItemRefs = [], { readField }) {
+                  const newItemRef = cache.writeFragment({
+                     data: data?.addToCart,
+                     fragment: CartItemDetailsFragmentDoc,
+                  });
 
-      // update: (cache, { data: _data }) => {
-      //    cache.updateQuery(
-      //       { query: GetCartItemsDocument, variables: { input: { cartId } } },
-      //       data => {
-      //          const isItemAlreadyExistedInCart = data?.getCartItems?.find(
-      //             (item: any) => _data?.addToCart?.menuItemId === item.menuItemId,
-      //          );
-      //          if (!isItemAlreadyExistedInCart)
-      //             return {
-      //                getCartItems: [_data?.addToCart, ...data?.getCartItems],
-      //             };
-      //       },
-      //    );
-      // },
+                  const isItemAlreadyExistedInCart = existingCartItemRefs.some(
+                     (itemRef: Reference) =>
+                        data?.addToCart?.menuItemId === readField("menuItemId", itemRef),
+                  );
+
+                  //* This statement works in case the cart items is already queried and cached
+                  if (!isItemAlreadyExistedInCart) {
+                     return [newItemRef, ...existingCartItemRefs];
+                  }
+
+                  return existingCartItemRefs;
+               },
+            },
+         });
+      },
    });
 
    const handleAddToCart = async () => {
