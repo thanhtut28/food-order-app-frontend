@@ -54,15 +54,7 @@ const ProductAction: React.FC<Props> = ({ price, itemId, quantity }) => {
    });
 
    const handleAddToCart = async () => {
-      if (!me || !cartId) {
-         toast.error(ErrorMessage.NOT_AUTHORIZED);
-         router.push("/account/login");
-         return;
-      }
-
-      if (cartId) {
-         await addToCart({ variables: { input: { cartId, menuItemId: itemId, quantity } } });
-      }
+      await addToCart({ variables: { input: { cartId, menuItemId: itemId, quantity } } });
    };
 
    return (

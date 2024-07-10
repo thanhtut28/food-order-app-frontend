@@ -78,7 +78,12 @@ const CartItem: React.FC<Props> = ({ item: { menuItemId, cartId, quantity, menuI
    };
 
    return (
-      <div className="flex items-stretch justify-between gap-4 rounded-lg bg-white px-2 py-6">
+      <div
+         className={cn(
+            "flex items-stretch justify-between gap-4 rounded-lg bg-white px-2 py-6",
+            "sm:px-4",
+         )}
+      >
          {/* <div
             className={cn(
                "flex h-8 w-8 items-center justify-center rounded-md border border-gray-300 text-xs text-primary-600",

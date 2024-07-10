@@ -17,7 +17,7 @@ export type Scalars = {
 };
 
 export type AddCartItemInput = {
-  cartId: Scalars['Int'];
+  cartId?: InputMaybe<Scalars['Int']>;
   menuItemId: Scalars['Int'];
   quantity: Scalars['Int'];
 };

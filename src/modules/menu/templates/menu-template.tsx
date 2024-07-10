@@ -21,7 +21,7 @@ const MenuTemplate: React.FC<Props> = ({ categories }) => {
    }, [categoryParams]);
 
    return (
-      <div className="mx-auto max-w-screen-lg px-6">
+      <div className="mx-auto max-w-screen-lg px-2 sm:px-6">
          <Categories categories={categories} activeTag={activeTag} setActiveTag={setActiveTag} />
          <div className="my-10" />
          <MenuItems categoryId={activeTag} />

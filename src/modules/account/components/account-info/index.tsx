@@ -50,7 +50,7 @@ const AccountInfo: React.FC<Props> = ({
             placeholder={info ?? ""}
             value={value}
             onChange={e => setValue(e.target.value)}
-            className="flex-1 rounded-md px-2 py-1 text-sm text-gray-900 placeholder:text-gray-400 focus:border focus:border-primary-500 focus:outline-none"
+            className="rounded-md px-2 py-1 text-sm text-gray-900 placeholder:text-gray-400 focus:border focus:border-primary-500 focus:outline-none sm:w-auto sm:flex-1"
             ref={inputRef}
          />
       ),
@@ -59,7 +59,7 @@ const AccountInfo: React.FC<Props> = ({
             placeholder={info ?? ""}
             value={value}
             onChange={e => setValue(e.target.value)}
-            className="h-32 flex-1 resize-none rounded-md px-2 py-1 text-sm text-gray-900 placeholder:text-gray-400 focus:border focus:border-primary-500 focus:outline-none"
+            className="h-32 resize-none rounded-md px-2 py-1 text-sm text-gray-900 placeholder:text-gray-400 focus:border focus:border-primary-500 focus:outline-none sm:flex-1"
             ref={textareaRef}
          />
       ),
@@ -73,7 +73,12 @@ const AccountInfo: React.FC<Props> = ({
       >
          <div className="flex flex-col gap-y-4">
             <h6 className="text-sm font-semibold capitalize text-slate-900">{label}</h6>
-            <form onSubmit={handleUpdateInfo} className="flex items-start justify-between gap-2">
+            <form
+               onSubmit={handleUpdateInfo}
+               className={cn("flex items-start justify-between gap-4", {
+                  "flex-col items-stretch sm:flex-row sm:items-start": editing,
+               })}
+            >
                {editing ? inputField : <p className="pt-0.5 text-sm text-gray-500">{info}</p>}
                <ProfileEditAction
                   editing={editing}

@@ -8,7 +8,7 @@ import {
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { IncomingMessage, ServerResponse } from "http";
-import { redirect } from "next/navigation";
+import Router from "next/router";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
 import cacheConfig from "./apollo-cache-config";
@@ -30,7 +30,7 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       graphQLErrors.map(({ message, locations, path }) => {
          console.log(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`);
          if (message.includes(ErrorMessage.NOT_AUTHENTICATED)) {
-            redirect("/account/login?refetch=true");
+            Router.replace("/account/login?refetch=true");
          }
          toast.error(`[Server Error]: ${message}`);
       });

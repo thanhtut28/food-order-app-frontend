@@ -15,10 +15,6 @@ const ProfileTemplate: React.FC = () => {
    });
    const ctx = useAccount();
 
-   if (ctx.retrievingUser || !ctx.me) {
-      return null;
-   }
-
    const handleLogout = async () => {
       await logout();
    };

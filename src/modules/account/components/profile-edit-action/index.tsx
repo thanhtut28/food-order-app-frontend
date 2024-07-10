@@ -13,7 +13,7 @@ const ProfileEditAction: React.FC<Props> = ({ editing, setEditing, cancelAction,
    return (
       <>
          {editing ? (
-            <div className="flex gap-2">
+            <div className="mx-auto flex w-full max-w-sm flex-1 justify-end gap-2 sm:w-fit sm:max-w-none sm:flex-none">
                {!updating && (
                   <Button variant="secondary-action" onClick={cancelAction}>
                      cancel

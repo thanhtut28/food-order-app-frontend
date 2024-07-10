@@ -1,17 +1,12 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { IS_SERVER } from "../constants/global";
-import {
-   GetCartDocument,
-   useCreateNewCartMutation,
-   useGetCartItemsLazyQuery,
-   useGetCartQuery,
-} from "../generated/graphql";
+import { GetCartDocument, useCreateNewCartMutation, useGetCartQuery } from "../generated/graphql";
 import { useAccount } from "./account-context";
 
 interface CartContextInterface {
    cartItemsQty: number;
    cartId?: number;
-   total?: number;
+   total: number;
 }
 
 const CartContext = createContext<CartContextInterface | null>(null);
@@ -52,7 +47,7 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
    const cartContext = {
       cartItemsQty: cartData?.getCart?.cartItemsCount || 0,
       cartId: cartData?.getCart?.id,
-      total: cartData?.getCart?.total,
+      total: cartData?.getCart?.total ?? 0,
    };
 
    return <CartContext.Provider value={cartContext}>{children}</CartContext.Provider>;

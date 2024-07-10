@@ -13,13 +13,11 @@ const CartItems: React.FC = () => {
 
    const [hasMore, setHasMore] = useState<boolean>(true);
 
-   const { cartId, total } = useCart();
+   const { cartId } = useCart();
 
    const [getCartItems, { data, loading, fetchMore, error }] = useGetCartItemsLazyQuery();
 
    const cartItems = data?.getCartItems;
-
-   console.log("Total", total);
 
    useEffect(() => {
       if (cartId) {
