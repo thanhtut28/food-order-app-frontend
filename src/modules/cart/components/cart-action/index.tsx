@@ -1,13 +1,57 @@
+import { SuccessMessage } from "@/lib/constants/message";
 import { useCart } from "@/lib/context/cart-context";
+import {
+   CartItemsInput,
+   GetCartDocument,
+   GetCartItemsQuery,
+   usePlaceOrderMutation,
+} from "@/lib/generated/graphql";
 import cn from "@/lib/utils/classname";
 import Button from "@/modules/common/components/button";
+import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
-const CartAction: React.FC = () => {
+interface CartActionProps {
+   cartItems: GetCartItemsQuery["getCartItems"];
+   cartId: number;
+}
+
+const CartAction: React.FC<CartActionProps> = ({ cartItems, cartId }) => {
+   const { push } = useRouter();
    const { total: subtotal, cartItemsQty } = useCart();
 
    const deliveryFees = 2;
 
    const total = deliveryFees + subtotal;
+
+   const [placeOrder, { loading: placingOrder }] = usePlaceOrderMutation({
+      refetchQueries: [GetCartDocument],
+      onCompleted: () => {
+         toast.success(SuccessMessage.PLACED_ORDER);
+         // push("/");
+      },
+      onError: () => {},
+      update: cache => {
+         cache.modify({
+            fields: {
+               getCartItems(existingCartItemRefs = []) {
+                  // To return empty array.
+                  return existingCartItemRefs.map(() => ({}));
+               },
+            },
+         });
+      },
+   });
+
+   const handlePlaceOrder = async () => {
+      const cartItemsInput: CartItemsInput[] = cartItems.map(item => ({
+         menuItemId: item.menuItemId,
+         quantity: item.quantity,
+         total: item.total,
+      }));
+
+      await placeOrder({ variables: { cartItems: cartItemsInput, total, cartId } });
+   };
 
    return (
       <>
@@ -35,7 +79,9 @@ const CartAction: React.FC = () => {
                      <p className="text-lg font-bold">${total.toFixed(2)}</p>
                   </div>
 
-                  <Button>Place Order</Button>
+                  <Button isLoading={placingOrder} onClick={handlePlaceOrder}>
+                     Place Order
+                  </Button>
                </div>
             </section>
          )}

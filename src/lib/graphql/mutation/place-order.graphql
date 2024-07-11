@@ -1,0 +1,5 @@
+mutation PlaceOrder($cartItems: [CartItemsInput!]!, $total: Float!, $cartId: Int!) {
+   placeOrder(cartItems: $cartItems, total: $total, cartId: $cartId) {
+      ...OrderDetails
+   }
+}

@@ -1,0 +1,6 @@
+fragment OrderDetails on Order {
+   id
+   total
+   userId
+   createdAt
+}

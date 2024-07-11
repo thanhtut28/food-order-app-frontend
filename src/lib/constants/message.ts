@@ -10,6 +10,7 @@ export const SuccessMessage = {
    CART_UPDATED: `Cart updated`,
    ITEM_REMOVED: `Item removed from the cart`,
    ADDRESS_UPDATED: `Address updated`,
+   PLACED_ORDER: `Placed order successfully.`,
    ADDED_TO_CART: `Added to cart`,
    SIGN_IN_SUCCESS: `Signed in successfully`,
    SIGN_UP_SUCCESS: `Signed up successfully`,

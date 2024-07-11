@@ -56,6 +56,12 @@ export type CartItem = {
   total: Scalars['Float'];
 };
 
+export type CartItemsInput = {
+  menuItemId: Scalars['Int'];
+  quantity: Scalars['Int'];
+  total: Scalars['Float'];
+};
+
 export type Category = {
   __typename?: 'Category';
   createdAt: Scalars['DateTime'];
@@ -105,6 +111,11 @@ export type GetMenuItemsInput = {
   cursor?: InputMaybe<Scalars['Int']>;
 };
 
+export type GetOrderItemsInput = {
+  cursor?: InputMaybe<Scalars['Int']>;
+  orderId: Scalars['Int'];
+};
+
 export type Ingredient = {
   __typename?: 'Ingredient';
   createdAt: Scalars['DateTime'];
@@ -147,6 +158,7 @@ export type Mutation = {
   createNewCart: Scalars['Boolean'];
   forgotPassword: ChangePasswordResponse;
   logout: Scalars['Boolean'];
+  placeOrder?: Maybe<Order>;
   removeCartItem: Scalars['Boolean'];
   signIn?: Maybe<AuthenticationResponse>;
   signUp: AuthenticationResponse;
@@ -185,6 +197,13 @@ export type MutationCreateMenuItemArgs = {
 
 export type MutationForgotPasswordArgs = {
   email: Scalars['String'];
+};
+
+
+export type MutationPlaceOrderArgs = {
+  cartId: Scalars['Int'];
+  cartItems: Array<CartItemsInput>;
+  total: Scalars['Float'];
 };
 
 
@@ -227,6 +246,27 @@ export type MutationUpdateUsernameArgs = {
   username: Scalars['String'];
 };
 
+export type Order = {
+  __typename?: 'Order';
+  createdAt: Scalars['DateTime'];
+  id: Scalars['Int'];
+  orderItems: Array<OrderItem>;
+  total: Scalars['Float'];
+  updatedAt: Scalars['DateTime'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+export type OrderItem = {
+  __typename?: 'OrderItem';
+  menuItem: MenuItem;
+  menuItemId: Scalars['Int'];
+  order: Order;
+  orderId: Scalars['Int'];
+  quantity: Scalars['Int'];
+  total: Scalars['Float'];
+};
+
 export type Query = {
   __typename?: 'Query';
   getAllCategories: Array<Category>;
@@ -237,6 +277,7 @@ export type Query = {
   getFeaturedItems: Array<MenuItem>;
   getMenuItemBySlug?: Maybe<MenuItem>;
   getMenuItemsByCategory: Array<MenuItem>;
+  getOrders?: Maybe<Array<Order>>;
   me?: Maybe<User>;
   users: Array<User>;
 };
@@ -299,6 +340,8 @@ export type User = {
 
 export type CartItemDetailsFragment = { __typename?: 'CartItem', cartId: number, menuItemId: number, quantity: number, total: number, menuItem: { __typename?: 'MenuItem', name: string, photo: string, price: number } };
 
+export type OrderDetailsFragment = { __typename?: 'Order', id: number, total: number, userId: number, createdAt: any };
+
 export type AddToCartMutationVariables = Exact<{
   input: AddCartItemInput;
 }>;
@@ -329,6 +372,15 @@ export type LogoutMutationVariables = Exact<{ [key: string]: never; }>;
 
 
 export type LogoutMutation = { __typename?: 'Mutation', logout: boolean };
+
+export type PlaceOrderMutationVariables = Exact<{
+  cartItems: Array<CartItemsInput> | CartItemsInput;
+  total: Scalars['Float'];
+  cartId: Scalars['Int'];
+}>;
+
+
+export type PlaceOrderMutation = { __typename?: 'Mutation', placeOrder?: { __typename?: 'Order', id: number, total: number, userId: number, createdAt: any } | null };
 
 export type RemoveCartItemMutationVariables = Exact<{
   input: RemoveCartItemInput;
@@ -436,6 +488,14 @@ export const CartItemDetailsFragmentDoc = gql`
     photo
     price
   }
+}
+    `;
+export const OrderDetailsFragmentDoc = gql`
+    fragment OrderDetails on Order {
+  id
+  total
+  userId
+  createdAt
 }
     `;
 export const AddToCartDocument = gql`
@@ -605,6 +665,41 @@ export function useLogoutMutation(baseOptions?: Apollo.MutationHookOptions<Logou
 export type LogoutMutationHookResult = ReturnType<typeof useLogoutMutation>;
 export type LogoutMutationResult = Apollo.MutationResult<LogoutMutation>;
 export type LogoutMutationOptions = Apollo.BaseMutationOptions<LogoutMutation, LogoutMutationVariables>;
+export const PlaceOrderDocument = gql`
+    mutation PlaceOrder($cartItems: [CartItemsInput!]!, $total: Float!, $cartId: Int!) {
+  placeOrder(cartItems: $cartItems, total: $total, cartId: $cartId) {
+    ...OrderDetails
+  }
+}
+    ${OrderDetailsFragmentDoc}`;
+export type PlaceOrderMutationFn = Apollo.MutationFunction<PlaceOrderMutation, PlaceOrderMutationVariables>;
+
+/**
+ * __usePlaceOrderMutation__
+ *
+ * To run a mutation, you first call `usePlaceOrderMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `usePlaceOrderMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [placeOrderMutation, { data, loading, error }] = usePlaceOrderMutation({
+ *   variables: {
+ *      cartItems: // value for 'cartItems'
+ *      total: // value for 'total'
+ *      cartId: // value for 'cartId'
+ *   },
+ * });
+ */
+export function usePlaceOrderMutation(baseOptions?: Apollo.MutationHookOptions<PlaceOrderMutation, PlaceOrderMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<PlaceOrderMutation, PlaceOrderMutationVariables>(PlaceOrderDocument, options);
+      }
+export type PlaceOrderMutationHookResult = ReturnType<typeof usePlaceOrderMutation>;
+export type PlaceOrderMutationResult = Apollo.MutationResult<PlaceOrderMutation>;
+export type PlaceOrderMutationOptions = Apollo.BaseMutationOptions<PlaceOrderMutation, PlaceOrderMutationVariables>;
 export const RemoveCartItemDocument = gql`
     mutation RemoveCartItem($input: RemoveCartItemInput!) {
   removeCartItem(input: $input)

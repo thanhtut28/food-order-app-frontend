@@ -2,6 +2,7 @@ import { useAccount } from "@/lib/context/account-context";
 import CartAction from "../components/cart-action";
 import CartItems from "../components/cart-items";
 import { useEffect } from "react";
+import Cart from "../components/cart";
 
 const CartTemplate: React.FC = () => {
    const { checkAuth } = useAccount();
@@ -12,10 +13,7 @@ const CartTemplate: React.FC = () => {
 
    return (
       <div className="mx-auto max-w-screen-md px-2 sm:px-6">
-         <CartItems />
-
-         {/* Cart Action only render when cart has at least one item. No need to handle loading UI. */}
-         <CartAction />
+         <Cart />
       </div>
    );
 };
